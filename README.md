@@ -18,6 +18,19 @@ plain web app instead of a Power Apps application.
 
 There is nothing to compile for the server and no external database to run.
 
+## Architecture
+
+```mermaid
+flowchart LR
+    U[Reviewer<br/>browser] --> C[React + TypeScript SPA<br/>Vite · queue & case pages]
+    C -- "JSON /api" --> A[Node 24 · Express 5 API<br/>validates decisions]
+    A -- "SQL" --> D[(SQLite file<br/>cases · verification_checks · activity)]
+    S[Seed data<br/>8 synthetic cases] -. on empty DB .-> D
+```
+
+In development Vite (`:5173`) serves the SPA and proxies `/api` to Express (`:3001`);
+in production Express also serves the built client from `client/dist`.
+
 ## Quick start
 
 Requires **Node.js 22.13 or newer** (`node --version`). Node 24 is recommended.
