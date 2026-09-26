@@ -1,0 +1,38 @@
+<widget xmlns="http://openajax.org/metadata" xmlns:appMagic="http://schemas.microsoft.com/appMagic" name="gallery" id="http://microsoft.com/appmagic/gallery" version="2.3.0" spec="1.0">
+  <properties>
+    <property name="Items" datatype="Table" isExpr="true" defaultValue="" />
+    <property name="TemplateSize" datatype="Number" isExpr="true" defaultValue="88" />
+    <property name="TemplatePadding" datatype="Number" isExpr="true" defaultValue="0" />
+    <property name="Layout" datatype="Layout" isExpr="true" defaultValue="%Layout.RESERVED%.Vertical" />
+    <property name="ShowScrollbar" datatype="Boolean" isExpr="true" defaultValue="true" />
+    <property name="LoadingSpinner" datatype="LoadingSpinner" isExpr="true" defaultValue="%LoadingSpinner.RESERVED%.None" />
+    <property name="LoadingSpinnerColor" datatype="Color" isExpr="true" defaultValue="RGBA(56, 96, 178, 1)" />
+    <property name="ShowNavigation" datatype="Boolean" isExpr="true" defaultValue="false" />
+    <property name="WrapCount" datatype="Number" isExpr="true" defaultValue="1" />
+    <property name="DelayItemLoading" datatype="Boolean" isExpr="true" defaultValue="false" />
+    <property name="Transition" datatype="Transition" isExpr="true" defaultValue="%Transition.RESERVED%.None" />
+  </properties>
+  <appMagic:includeProperties>
+    <appMagic:includeProperty name="Fill" />
+    <appMagic:includeProperty name="BorderColor" />
+    <appMagic:includeProperty name="BorderStyle" />
+    <appMagic:includeProperty name="BorderThickness" />
+    <appMagic:includeProperty name="X" />
+    <appMagic:includeProperty name="Y" />
+    <appMagic:includeProperty name="Width" />
+    <appMagic:includeProperty name="Height" />
+    <appMagic:includeProperty name="Visible" />
+    <appMagic:includeProperty name="DisplayMode" />
+    <appMagic:includeProperty name="AccessibleLabel" />
+    <appMagic:includeProperty name="TabIndex" />
+    <appMagic:includeProperty name="OnSelect" />
+  </appMagic:includeProperties>
+  <appMagic:nestedWidgets>
+    <appMagic:dataControlWidget name="galleryTemplate" id="http://microsoft.com/appmagic/galleryTemplate" version="1.0">
+      <properties>
+        <property name="TemplateFill" datatype="Color" isExpr="true" defaultValue="RGBA(0, 0, 0, 0)" />
+        <property name="OnSelect" datatype="Boolean" isExpr="true" defaultValue="false" />
+      </properties>
+    </appMagic:dataControlWidget>
+  </appMagic:nestedWidgets>
+</widget>
