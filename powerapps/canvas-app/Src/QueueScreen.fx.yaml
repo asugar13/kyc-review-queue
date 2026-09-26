@@ -187,7 +187,7 @@ QueueScreen As screen:
             =SortByColumns(
                 Filter(
                     'KYC Cases',
-                    IsBlank(StatusFilter.Selected.'Case status') || 'Case status' = StatusFilter.Selected.'Case status',
+                    IsBlank(StatusFilter.Selected.Status) || 'Case status' = StatusFilter.Selected.Status,
                     IsBlank(Trim(SearchInput.Text)) || Trim(SearchInput.Text) in 'Applicant name' || Trim(SearchInput.Text) in 'Case reference'
                 ),
                 "kyc_submittedat",
