@@ -1,0 +1,30 @@
+{
+  "name": "kyc-review-queue",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Internal KYC review queue prototype (React + TypeScript, Node API, SQLite). Synthetic data only.",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,magenta \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w client",
+    "start": "npm run start -w server",
+    "seed": "npm run seed -w server",
+    "test": "npm test -w server",
+    "typecheck": "npm run typecheck -w server && npm run typecheck -w client",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "concurrently": "10.0.5",
+    "eslint": "10.10.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.70.0"
+  }
+}
