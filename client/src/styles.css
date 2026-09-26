@@ -583,4 +583,5 @@ button.primary:disabled {
 
 .event p {
   margin: 2px 0;
+  overflow-wrap: anywhere;
 }
