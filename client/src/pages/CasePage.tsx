@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api, ApiError } from '../api';
 import { CheckBadge, RiskBadge, StatusBadge } from '../components/Badges';
@@ -6,6 +6,7 @@ import { formatDate, formatDateTime } from '../format';
 import { ACTION_LABELS, FINAL_STATUSES, STATUS_LABELS, type CaseDetail, type DecisionAction } from '../types';
 
 const MIN_REASON_LENGTH = 10;
+const MAX_REASON_LENGTH = 2000;
 
 const ACTIONS: { value: DecisionAction; label: string; hint: string; tone: string }[] = [
   { value: 'approve', label: 'Approve', hint: 'Applicant passes KYC; account can be opened.', tone: 'ok' },
@@ -15,23 +16,31 @@ const ACTIONS: { value: DecisionAction; label: string; hint: string; tone: strin
 
 export function CasePage({ reviewer }: { reviewer: string }) {
   const { id = '' } = useParams();
+  return <CaseView key={id} id={id} reviewer={reviewer} />;
+}
+
+function CaseView({ id, reviewer }: { id: string; reviewer: string }) {
   const [detail, setDetail] = useState<CaseDetail | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
-  const load = useCallback(() => {
+  useEffect(() => {
+    let cancelled = false;
     api
       .getCase(id)
       .then((d) => {
+        if (cancelled) return;
         setDetail(d);
         setLoadError(null);
       })
-      .catch((err: unknown) => setLoadError(err instanceof Error ? err.message : 'Failed to load case'));
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        setLoadError(err instanceof Error ? err.message : 'Failed to load case');
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
-
-  useEffect(() => {
-    load();
-  }, [load]);
 
   if (loadError) {
     return (
@@ -194,7 +203,8 @@ function DecisionForm({
 
   const trimmed = reason.trim();
   const reasonTooShort = trimmed.length < MIN_REASON_LENGTH;
-  const canSubmit = action !== '' && !reasonTooShort && reviewer !== '' && !submitting;
+  const reasonTooLong = trimmed.length > MAX_REASON_LENGTH;
+  const canSubmit = action !== '' && !reasonTooShort && !reasonTooLong && reviewer !== '' && !submitting;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -204,6 +214,10 @@ function DecisionForm({
     }
     if (reasonTooShort) {
       setError(`A written reason of at least ${MIN_REASON_LENGTH} characters is required.`);
+      return;
+    }
+    if (reasonTooLong) {
+      setError(`Reason must be at most ${MAX_REASON_LENGTH} characters.`);
       return;
     }
     setSubmitting(true);
@@ -243,15 +257,23 @@ function DecisionForm({
 
       <label className="stack">
         <span>
-          Reason <span className="muted small">(required, min {MIN_REASON_LENGTH} characters)</span>
+          Reason{' '}
+          <span className="muted small">
+            (required, {MIN_REASON_LENGTH}–{MAX_REASON_LENGTH} characters)
+          </span>
         </span>
         <textarea
           value={reason}
           onChange={(e) => setReason(e.target.value)}
           rows={4}
           placeholder="Explain the basis for this decision. This is recorded in the case history."
-          aria-invalid={reason.length > 0 && reasonTooShort}
+          aria-invalid={reason.length > 0 && (reasonTooShort || reasonTooLong)}
         />
+        {reasonTooLong && (
+          <span className="muted small">
+            {trimmed.length}/{MAX_REASON_LENGTH} characters
+          </span>
+        )}
       </label>
 
       <div className="form-foot">

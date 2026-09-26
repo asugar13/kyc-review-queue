@@ -285,12 +285,6 @@ export const SEED_CASES: SeedCase[] = [
 ];
 
 export function seedDatabase(db: DatabaseSync, options: { reset?: boolean } = {}): number {
-  if (options.reset) {
-    db.exec('DELETE FROM activity; DELETE FROM verification_checks; DELETE FROM cases;');
-  }
-  const existing = (db.prepare('SELECT COUNT(*) AS n FROM cases').get() as { n: number }).n;
-  if (existing > 0) return 0;
-
   const insertCase = db.prepare(`
     INSERT INTO cases (
       id, applicant_name, email, date_of_birth, nationality, country_of_residence, address,
@@ -304,8 +298,16 @@ export function seedDatabase(db: DatabaseSync, options: { reset?: boolean } = {}
     'INSERT INTO activity (case_id, action, reason, reviewer, created_at) VALUES (?, ?, ?, ?, ?)',
   );
 
-  db.exec('BEGIN');
+  db.exec('BEGIN IMMEDIATE');
   try {
+    if (options.reset) {
+      db.exec('DELETE FROM activity; DELETE FROM verification_checks; DELETE FROM cases;');
+    }
+    const existing = (db.prepare('SELECT COUNT(*) AS n FROM cases').get() as { n: number }).n;
+    if (existing > 0) {
+      db.exec('COMMIT');
+      return 0;
+    }
     for (const c of SEED_CASES) {
       const finalEntry = c.history.find((h) => h.action === 'approve' || h.action === 'escalate');
       insertCase.run(

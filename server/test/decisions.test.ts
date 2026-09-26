@@ -131,6 +131,43 @@ describe('CaseRepository.applyDecision', () => {
   });
 });
 
+describe('CaseRepository.listQueue', () => {
+  it('treats LIKE wildcards in the search text literally', () => {
+    const { repo } = freshRepo();
+    const all = repo.listQueue({ status: 'all' });
+    assert.ok(all.length > 0);
+    assert.deepEqual(repo.listQueue({ status: 'all', q: '%' }), []);
+    assert.deepEqual(repo.listQueue({ status: 'all', q: '_' }), []);
+    assert.deepEqual(repo.listQueue({ status: 'all', q: 'KYC-104_' }), []);
+    assert.deepEqual(
+      repo.listQueue({ status: 'all', q: 'kyc-1041' }).map((c) => c.id),
+      [ORDINARY],
+    );
+  });
+});
+
+describe('seedDatabase', () => {
+  it('does not wipe existing data when a reset reseed fails', () => {
+    const { db, repo } = freshRepo();
+    repo.applyDecision(ORDINARY, { action: 'approve', reason: 'Keep me if the reseed fails.', reviewer: 'Tom Okafor' });
+    const before = repo.getDetail(ORDINARY);
+
+    db.exec('CREATE TRIGGER fail_seed BEFORE INSERT ON cases BEGIN SELECT RAISE(ABORT, "seed failure"); END;');
+    assert.throws(() => seedDatabase(db, { reset: true }), /seed failure/);
+    db.exec('DROP TRIGGER fail_seed');
+
+    assert.equal(repo.count(), 8);
+    assert.deepEqual(repo.getDetail(ORDINARY), before);
+  });
+
+  it('replaces existing data when a reset reseed succeeds', () => {
+    const { db, repo } = freshRepo();
+    repo.applyDecision(ORDINARY, { action: 'approve', reason: 'Will be discarded by reset.', reviewer: 'Tom Okafor' });
+    assert.equal(seedDatabase(db, { reset: true }), 8);
+    assert.equal(repo.getDetail(ORDINARY).status, 'pending');
+  });
+});
+
 describe('persistence across restart', () => {
   const dir = mkdtempSync(join(tmpdir(), 'kyc-test-'));
   const path = join(dir, 'kyc.sqlite');

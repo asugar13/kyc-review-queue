@@ -160,8 +160,10 @@ export class CaseRepository {
       params.push(filter.status);
     }
     if (filter.q && filter.q.trim()) {
-      where.push('(applicant_name LIKE ? COLLATE NOCASE OR id LIKE ? COLLATE NOCASE)');
-      const like = `%${filter.q.trim()}%`;
+      where.push(
+        "(applicant_name LIKE ? ESCAPE '\\' COLLATE NOCASE OR id LIKE ? ESCAPE '\\' COLLATE NOCASE)",
+      );
+      const like = `%${filter.q.trim().replace(/[\\%_]/g, '\\$&')}%`;
       params.push(like, like);
     }
     const sql = `SELECT * FROM cases ${where.length ? 'WHERE ' + where.join(' AND ') : ''} ORDER BY submitted_at ASC, id ASC`;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api } from '../api';
 import { RiskBadge, StatusBadge } from '../components/Badges';
@@ -17,18 +17,47 @@ export function QueuePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const status = searchParams.get('status') ?? 'pending';
-  const [q, setQ] = useState(() => searchParams.get('q') ?? '');
+  const urlQ = searchParams.get('q') ?? '';
+
+  // The input owns its text; the URL is updated after a short pause so fast typing
+  // never fights the router. A URL change we did not push (back/forward, a link)
+  // is adopted into the input.
+  const [q, setQ] = useState(urlQ);
+  const [pushedQ, setPushedQ] = useState(urlQ);
+  const [seenUrlQ, setSeenUrlQ] = useState(urlQ);
+  if (urlQ !== seenUrlQ) {
+    setSeenUrlQ(urlQ);
+    if (urlQ !== pushedQ) {
+      setQ(urlQ);
+      setPushedQ(urlQ);
+    }
+  }
+
+  const pushTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const setSearchParamsRef = useRef(setSearchParams);
+  useEffect(() => {
+    setSearchParamsRef.current = setSearchParams;
+  }, [setSearchParams]);
+  useEffect(() => () => clearTimeout(pushTimer.current), []);
+
+  function onSearchChange(value: string) {
+    setQ(value);
+    clearTimeout(pushTimer.current);
+    pushTimer.current = setTimeout(() => {
+      setPushedQ(value);
+      setSearchParamsRef.current(
+        (params) => {
+          if (value) params.set('q', value);
+          else params.delete('q');
+          return params;
+        },
+        { replace: true },
+      );
+    }, 250);
+  }
 
   const [cases, setCases] = useState<QueueCase[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if ((searchParams.get('q') ?? '') === q) return;
-    const params = new URLSearchParams(searchParams);
-    if (q) params.set('q', q);
-    else params.delete('q');
-    setSearchParams(params, { replace: true });
-  }, [q, searchParams, setSearchParams]);
 
   useEffect(() => {
     let cancelled = false;
@@ -42,6 +71,7 @@ export function QueuePage() {
         })
         .catch((err: unknown) => {
           if (cancelled) return;
+          setCases(null);
           setError(err instanceof Error ? err.message : 'Failed to load queue');
         });
     }, q ? 200 : 0);
@@ -91,7 +121,7 @@ export function QueuePage() {
           className="search"
           placeholder="Search applicant or case ID…"
           value={q}
-          onChange={(e) => setQ(e.target.value)}
+          onChange={(e) => onSearchChange(e.target.value)}
           aria-label="Search by applicant"
         />
       </div>
