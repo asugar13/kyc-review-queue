@@ -17,10 +17,18 @@ export function QueuePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const status = searchParams.get('status') ?? 'pending';
-  const q = searchParams.get('q') ?? '';
+  const [q, setQ] = useState(() => searchParams.get('q') ?? '');
 
   const [cases, setCases] = useState<QueueCase[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if ((searchParams.get('q') ?? '') === q) return;
+    const params = new URLSearchParams(searchParams);
+    if (q) params.set('q', q);
+    else params.delete('q');
+    setSearchParams(params, { replace: true });
+  }, [q, searchParams, setSearchParams]);
 
   useEffect(() => {
     let cancelled = false;
@@ -43,15 +51,15 @@ export function QueuePage() {
     };
   }, [status, q]);
 
-  function update(next: { status?: string; q?: string }) {
-    const params = new URLSearchParams(searchParams);
-    const nextStatus = next.status ?? status;
-    const nextQ = next.q ?? q;
-    if (nextStatus === 'pending') params.delete('status');
-    else params.set('status', nextStatus);
-    if (nextQ) params.set('q', nextQ);
-    else params.delete('q');
-    setSearchParams(params, { replace: true });
+  function setStatus(nextStatus: string) {
+    setSearchParams(
+      (params) => {
+        if (nextStatus === 'pending') params.delete('status');
+        else params.set('status', nextStatus);
+        return params;
+      },
+      { replace: true },
+    );
   }
 
   return (
@@ -72,7 +80,7 @@ export function QueuePage() {
               type="button"
               aria-selected={status === f.value}
               className={status === f.value ? 'active' : ''}
-              onClick={() => update({ status: f.value })}
+              onClick={() => setStatus(f.value)}
             >
               {f.label}
             </button>
@@ -83,7 +91,7 @@ export function QueuePage() {
           className="search"
           placeholder="Search applicant or case ID…"
           value={q}
-          onChange={(e) => update({ q: e.target.value })}
+          onChange={(e) => setQ(e.target.value)}
           aria-label="Search by applicant"
         />
       </div>
