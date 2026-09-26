@@ -1,0 +1,15 @@
+{
+  "DatasetName": "default.cds",
+  "EntityName": "kyc_case",
+  "InstanceUrl": "https://org64ad231d.crm11.dynamics.com/",
+  "LocalReferenceDSJson": {
+    "entitySetName": "kyc_cases",
+    "logicalName": "kyc_case"
+  },
+  "TableDefinition": {
+    "name": "kyc_case",
+    "title": "KYC Cases",
+    "x-ms-permission": "read-write"
+  },
+  "UnusedDataSources": {}
+}

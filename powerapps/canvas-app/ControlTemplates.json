@@ -1,0 +1,78 @@
+{
+  "appinfo": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/appinfo",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "appinfo",
+    "Version": "1.0"
+  },
+  "button": {
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "Name": "button"
+  },
+  "dropdown": {
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "Name": "dropdown"
+  },
+  "gallery": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/gallery",
+    "IsPcfControl": false,
+    "IsWidgetTemplate": true,
+    "Name": "gallery",
+    "Version": "2.3.0"
+  },
+  "galleryTemplate": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/galleryTemplate",
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "Name": "galleryTemplate",
+    "Version": "1.0"
+  },
+  "groupContainer": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/groupContainer",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "groupContainer",
+    "Version": "1.0"
+  },
+  "icon": {
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "Name": "icon"
+  },
+  "label": {
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "Name": "label"
+  },
+  "rectangle": {
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "Name": "rectangle"
+  },
+  "screen": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/screen",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "screen",
+    "Version": "1.0"
+  },
+  "text": {
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "Name": "text"
+  }
+}

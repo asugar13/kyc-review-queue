@@ -1,0 +1,345 @@
+QueueScreen As screen:
+    Fill: =RGBA(243, 244, 246, 1)
+    OnVisible: =Refresh('KYC Cases')
+    ZIndex: =1
+
+    QueueHeader As rectangle:
+        Fill: =RGBA(23, 43, 77, 1)
+        Height: =72
+        Width: =Parent.Width
+        X: =0
+        Y: =0
+        ZIndex: =1
+
+    QueueTitle As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =72
+        Size: =22
+        Text: ="KYC Review Queue"
+        Width: =260
+        X: =24
+        Y: =0
+        ZIndex: =2
+
+    QueueSubtitle As label:
+        Color: =RGBA(191, 205, 228, 1)
+        Font: =Font.'Segoe UI'
+        Height: =72
+        Size: =12
+        Text: ="Power Apps + Dataverse prototype · all data is synthetic"
+        Width: =420
+        X: =284
+        Y: =0
+        ZIndex: =3
+
+    ActingAsLabel As label:
+        Align: =Align.Right
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =36
+        Text: ="Acting as"
+        Width: =90
+        X: =Parent.Width - 350
+        Y: =18
+        ZIndex: =4
+
+    ReviewerDropdown As dropdown:
+        AccessibleLabel: ="Reviewer acting on decisions"
+        Default: ="Priya Natarajan"
+        Font: =Font.'Segoe UI'
+        Height: =36
+        Items: =["Priya Natarajan", "Tom Okafor", "Lena Fischer", "Marcus Reid"]
+        Width: =230
+        X: =Parent.Width - 254
+        Y: =18
+        ZIndex: =5
+
+    StatusFilterLabel As label:
+        Color: =RGBA(50, 49, 48, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =40
+        Text: ="Status"
+        Width: =60
+        X: =24
+        Y: =92
+        ZIndex: =6
+
+    StatusFilter As dropdown:
+        AccessibleLabel: ="Filter cases by status"
+        Default: ="Pending"
+        Font: =Font.'Segoe UI'
+        Height: =40
+        Items: |-
+            =Table(
+                {Value: "All statuses", Status: Blank()},
+                {Value: "Pending", Status: 'Case status (KYC Cases)'.Pending},
+                {Value: "Info requested", Status: 'Case status (KYC Cases)'.'Info requested'},
+                {Value: "Approved", Status: 'Case status (KYC Cases)'.Approved},
+                {Value: "Escalated", Status: 'Case status (KYC Cases)'.Escalated}
+            )
+        Width: =220
+        X: =88
+        Y: =92
+        ZIndex: =7
+
+    SearchInput As text:
+        AccessibleLabel: ="Search by applicant name or case reference"
+        Clear: =true
+        Font: =Font.'Segoe UI'
+        Height: =40
+        HintText: ="Search applicant name or case reference"
+        Width: =380
+        X: =332
+        Y: =92
+        ZIndex: =8
+
+    CountLabel As label:
+        Align: =Align.Right
+        Color: =RGBA(96, 94, 92, 1)
+        Font: =Font.'Segoe UI'
+        Height: =40
+        Text: =CountRows(CaseGallery.AllItems) & If(CountRows(CaseGallery.AllItems) = 1, " case", " cases") & " shown"
+        Width: =300
+        X: =Parent.Width - 324
+        Y: =92
+        ZIndex: =9
+
+    ColumnHeaderCase As label:
+        Color: =RGBA(96, 94, 92, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        Size: =11
+        Text: ="CASE"
+        Width: =110
+        X: =56
+        Y: =148
+        ZIndex: =10
+
+    ColumnHeaderApplicant As label:
+        Color: =RGBA(96, 94, 92, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        Size: =11
+        Text: ="APPLICANT"
+        Width: =220
+        X: =170
+        Y: =148
+        ZIndex: =11
+
+    ColumnHeaderSubmitted As label:
+        Color: =RGBA(96, 94, 92, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        Size: =11
+        Text: ="SUBMITTED"
+        Width: =150
+        X: =400
+        Y: =148
+        ZIndex: =12
+
+    ColumnHeaderStatus As label:
+        Color: =RGBA(96, 94, 92, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        Size: =11
+        Text: ="STATUS"
+        Width: =130
+        X: =560
+        Y: =148
+        ZIndex: =13
+
+    ColumnHeaderReviewer As label:
+        Color: =RGBA(96, 94, 92, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        Size: =11
+        Text: ="ASSIGNED REVIEWER"
+        Width: =170
+        X: =700
+        Y: =148
+        ZIndex: =14
+
+    ColumnHeaderReason As label:
+        Color: =RGBA(96, 94, 92, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        Size: =11
+        Text: ="REVIEW REASON"
+        Width: =Parent.Width - 900
+        X: =880
+        Y: =148
+        ZIndex: =15
+
+    CaseGallery As gallery.galleryVertical:
+        AccessibleLabel: ="KYC cases matching the current filter"
+        DelayItemLoading: =true
+        Height: =Parent.Height - 184
+        Items: |-
+            =SortByColumns(
+                Filter(
+                    'KYC Cases',
+                    IsBlank(StatusFilter.Selected.Status) || 'Case status' = StatusFilter.Selected.Status,
+                    IsBlank(Trim(SearchInput.Text)) || Trim(SearchInput.Text) in 'Applicant name' || Trim(SearchInput.Text) in 'Case reference'
+                ),
+                "kyc_submittedat",
+                SortOrder.Ascending
+            )
+        LoadingSpinner: =LoadingSpinner.Data
+        OnSelect: |-
+            =Set(SelectedCase, ThisItem);
+            Set(IsFinal, SelectedCase.'Case status' = 'Case status (KYC Cases)'.Approved || SelectedCase.'Case status' = 'Case status (KYC Cases)'.Escalated);
+            Navigate(DetailScreen, ScreenTransition.None)
+        TemplateFill: =If(ThisItem.IsSelected, RGBA(232, 240, 254, 1), RGBA(255, 255, 255, 1))
+        TemplateSize: =64
+        Width: =Parent.Width
+        Y: =184
+        ZIndex: =16
+
+        RowSeparator As rectangle:
+            Fill: =RGBA(225, 228, 232, 1)
+            Height: =1
+            Width: =Parent.Width
+            X: =0
+            Y: =63
+            ZIndex: =2
+
+        FlagIcon As icon.Flag:
+            AccessibleLabel: ="Flagged case"
+            Color: =RGBA(196, 49, 75, 1)
+            Height: =20
+            Icon: =Icon.Flag
+            Tooltip: |-
+                ="Flagged: " & ThisItem.'Review reason'
+            Visible: =ThisItem.Flagged
+            Width: =20
+            X: =24
+            Y: =22
+            ZIndex: =3
+
+        CaseRefLabel As label:
+            Color: =RGBA(50, 49, 48, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =64
+            Text: =ThisItem.'Case reference'
+            Width: =110
+            X: =56
+            Y: =0
+            ZIndex: =4
+
+        ApplicantLabel As label:
+            Color: =RGBA(50, 49, 48, 1)
+            Font: =Font.'Segoe UI'
+            Height: =36
+            Text: =ThisItem.'Applicant name'
+            Width: =220
+            X: =170
+            Y: =6
+            ZIndex: =5
+
+        RiskLabel As label:
+            Color: |-
+                =Switch(
+                    ThisItem.'Risk level',
+                    'Risk level (KYC Cases)'.High, RGBA(196, 49, 75, 1),
+                    'Risk level (KYC Cases)'.Medium, RGBA(176, 108, 0, 1),
+                    RGBA(16, 124, 16, 1)
+                )
+            Font: =Font.'Segoe UI'
+            Height: =22
+            Size: =11
+            Text: |-
+                ="Risk: " & Lower(Text(ThisItem.'Risk level'))
+            Width: =220
+            X: =170
+            Y: =38
+            ZIndex: =6
+
+        SubmittedLabel As label:
+            Color: =RGBA(96, 94, 92, 1)
+            Font: =Font.'Segoe UI'
+            Height: =64
+            Size: =12
+            Text: |-
+                =Text(ThisItem.'Submitted at', "dd mmm yyyy hh:mm")
+            Width: =150
+            X: =400
+            Y: =0
+            ZIndex: =7
+
+        StatusBadge As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: |-
+                =Switch(
+                    ThisItem.'Case status',
+                    'Case status (KYC Cases)'.Approved, RGBA(16, 124, 16, 1),
+                    'Case status (KYC Cases)'.Escalated, RGBA(196, 49, 75, 1),
+                    'Case status (KYC Cases)'.'Info requested', RGBA(176, 108, 0, 1),
+                    RGBA(0, 120, 212, 1)
+                )
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =26
+            Size: =11
+            Text: =Text(ThisItem.'Case status')
+            Width: =120
+            X: =560
+            Y: =19
+            ZIndex: =8
+
+        ReviewerLabel As label:
+            Color: =RGBA(50, 49, 48, 1)
+            Font: =Font.'Segoe UI'
+            Height: =64
+            Size: =12
+            Text: =ThisItem.'Assigned reviewer'
+            Width: =170
+            X: =700
+            Y: =0
+            ZIndex: =9
+
+        ReasonLabel As label:
+            Color: =RGBA(96, 94, 92, 1)
+            Font: =Font.'Segoe UI'
+            Height: =64
+            Size: =12
+            Text: =ThisItem.'Review reason'
+            Width: =Parent.Width - 940
+            Wrap: =true
+            X: =880
+            Y: =0
+            ZIndex: =10
+
+        ChevronIcon As icon.ChevronRight:
+            AccessibleLabel: ="Open case"
+            Color: =RGBA(96, 94, 92, 1)
+            Height: =24
+            Icon: =Icon.ChevronRight
+            Width: =24
+            X: =Parent.Width - 44
+            Y: =20
+            ZIndex: =11
+
+    EmptyLabel As label:
+        Align: =Align.Center
+        Color: =RGBA(96, 94, 92, 1)
+        Font: =Font.'Segoe UI'
+        Height: =60
+        Size: =14
+        Text: ="No cases match the current filter."
+        Visible: =CountRows(CaseGallery.AllItems) = 0
+        Width: =Parent.Width
+        X: =0
+        Y: =220
+        ZIndex: =17
+

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>kyc_kycreviewqueue_7c2e1</Name>
+  <AppVersion>2026-09-26T23:35:26Z</AppVersion>
+  <Status>Ready</Status>
+  <CreatedByClientVersion>3.26091.20.0</CreatedByClientVersion>
+  <MinClientVersion>3.26091.20.0</MinClientVersion>
+  <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","publisherVersion":"3.26091.20","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false"}</Tags>
+  <IsCdsUpgraded>0</IsCdsUpgraded>
+  <GalleryItemId xsi:nil="true"></GalleryItemId>
+  <BackgroundColor>RGBA(15,76,129,1)</BackgroundColor>
+  <DisplayName>KYC Review Queue</DisplayName>
+  <Description>Internal KYC review queue prototype (synthetic data only). Same workflow as the React/Node version, rebuilt as a canvas app on Dataverse.</Description>
+  <CommitMessage></CommitMessage>
+  <Publisher></Publisher>
+  <AuthorizationReferences>[]</AuthorizationReferences>
+  <ConnectionReferences>{}</ConnectionReferences>
+  <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified"}},"dataSources":{"KYC Cases":{"entitySetName":"kyc_cases","logicalName":"kyc_case"},"Verification Checks":{"entitySetName":"kyc_verificationchecks","logicalName":"kyc_verificationcheck"},"KYC Case Activities":{"entitySetName":"kyc_caseactivities","logicalName":"kyc_caseactivity"}}}}</DatabaseReferences>
+  <AppComponents>[]</AppComponents>
+  <AppComponentDependencies>[]</AppComponentDependencies>
+  <CanConsumeAppPass>1</CanConsumeAppPass>
+  <CanvasAppType>0</CanvasAppType>
+  <BypassConsent>0</BypassConsent>
+  <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <CdsDependencies>{"cdsdependencies":[{"componenttype":1,"logicalname":"kyc_case"},{"componenttype":1,"logicalname":"kyc_verificationcheck"},{"componenttype":1,"logicalname":"kyc_caseactivity"}]}</CdsDependencies>
+  <IsCustomizable>1</IsCustomizable>
+  <BackgroundImageUri>/CanvasApps/kyc_kycreviewqueue_7c2e1_BackgroundImageUri</BackgroundImageUri>
+  <DocumentUri>/CanvasApps/kyc_kycreviewqueue_7c2e1_DocumentUri.msapp</DocumentUri>
+</CanvasApp>

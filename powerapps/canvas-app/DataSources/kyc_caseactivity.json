@@ -1,0 +1,10 @@
+[
+  {
+    "ApiId": "/providers/microsoft.powerapps/apis/shared_commondataserviceforapps",
+    "IsSampleData": false,
+    "IsWritable": true,
+    "Name": "KYC Case Activities",
+    "RelatedEntityName": "kyc_caseactivity",
+    "Type": "NativeCDSDataSourceInfo"
+  }
+]
