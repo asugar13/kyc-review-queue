@@ -75,24 +75,30 @@ async function main(): Promise<void> {
     });
     const caseRef = `/${CASES}(${caseId})`;
 
-    for (const [index, check] of c.checks.entries()) {
-      await dv.create(CHECKS, {
-        kyc_name: check.name,
-        kyc_result: CHECK_RESULT_OPTIONS[check.result].value,
-        kyc_detail: check.detail,
-        kyc_order: index + 1,
-        'kyc_Case@odata.bind': caseRef,
-      });
-    }
-    for (const h of c.history) {
-      await dv.create(ACTIVITIES, {
-        kyc_name: summary(h.action, h.reviewer),
-        kyc_action: actionOption(h.action),
-        kyc_reason: h.reason,
-        kyc_reviewer: h.reviewer,
-        kyc_occurredat: h.at,
-        'kyc_Case@odata.bind': caseRef,
-      });
+    try {
+      for (const [index, check] of c.checks.entries()) {
+        await dv.create(CHECKS, {
+          kyc_name: check.name,
+          kyc_result: CHECK_RESULT_OPTIONS[check.result].value,
+          kyc_detail: check.detail,
+          kyc_order: index + 1,
+          'kyc_Case@odata.bind': caseRef,
+        });
+      }
+      for (const h of c.history) {
+        await dv.create(ACTIVITIES, {
+          kyc_name: summary(h.action, h.reviewer),
+          kyc_action: actionOption(h.action),
+          kyc_reason: h.reason,
+          kyc_reviewer: h.reviewer,
+          kyc_occurredat: h.at,
+          'kyc_Case@odata.bind': caseRef,
+        });
+      }
+    } catch (err) {
+      // The relationships cascade-delete, so removing the case also removes any partial children.
+      await dv.delete(`${CASES}(${caseId})`);
+      throw err;
     }
     created += 1;
     console.log(`Seeded ${c.id} (${c.applicantName})${c.flagged ? ' [flagged]' : ''}`);

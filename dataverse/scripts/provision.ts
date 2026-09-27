@@ -177,9 +177,35 @@ async function ensureTable(table: TableDef): Promise<void> {
   );
   const have = new Set(existingAttrs.value.map((a) => a.LogicalName));
   for (const col of table.columns) {
-    if (have.has(col.schemaName.toLowerCase())) continue;
+    if (have.has(col.schemaName.toLowerCase())) {
+      if (col.type === 'picklist' && col.options) await ensureOptions(logicalName, col.schemaName.toLowerCase(), col.options);
+      continue;
+    }
     console.log(`  Adding column ${table.schemaName}.${col.schemaName}`);
     await dv.request('POST', `EntityDefinitions(LogicalName='${logicalName}')/Attributes`, attributeMetadata(col), solutionHeader);
+  }
+}
+
+interface PicklistAttribute {
+  OptionSet: { Options: { Value: number }[] };
+}
+
+/** Adds choice values that exist in the schema but not yet on an existing picklist column. */
+async function ensureOptions(entity: string, attribute: string, options: OptionMap): Promise<void> {
+  const meta = await dv.get<PicklistAttribute>(
+    `EntityDefinitions(LogicalName='${entity}')/Attributes(LogicalName='${attribute}')/Microsoft.Dynamics.CRM.PicklistAttributeMetadata?$select=LogicalName&$expand=OptionSet($select=Options)`,
+  );
+  const have = new Set(meta.OptionSet.Options.map((o) => o.Value));
+  for (const o of Object.values(options)) {
+    if (have.has(o.value)) continue;
+    console.log(`  Adding choice ${entity}.${attribute} = ${o.value} (${o.label})`);
+    await dv.action('InsertOptionValue', {
+      EntityLogicalName: entity,
+      AttributeLogicalName: attribute,
+      Value: o.value,
+      Label: label(o.label),
+      SolutionUniqueName: SOLUTION.uniqueName,
+    });
   }
 }
 

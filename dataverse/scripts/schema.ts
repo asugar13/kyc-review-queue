@@ -42,6 +42,7 @@ export const ACTIVITY_ACTION_OPTIONS = {
   approve: { value: 100000004, label: 'Approved' },
   escalate: { value: 100000005, label: 'Escalated' },
   note: { value: 100000006, label: 'Note' },
+  flagged: { value: 100000007, label: 'Flagged' },
 } as const;
 
 export type OptionMap = Record<string, { value: number; label: string }>;
