@@ -1,3 +1,0 @@
-build/
-# Binary build output; regenerated from canvas-app/ by scripts/deploy.sh
-solution/CanvasApps/*.msapp
