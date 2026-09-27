@@ -106,7 +106,7 @@
     "DefaultConnectedDataSourceMaxGetRowsCount": 500,
     "DocumentAppType": "DesktopOrTablet",
     "DocumentLayoutHeight": 768,
-    "DocumentLayoutLockOrientation": true,
+    "DocumentLayoutLockOrientation": false,
     "DocumentLayoutMaintainAspectRatio": true,
     "DocumentLayoutOrientation": "landscape",
     "DocumentLayoutScaleToFit": true,

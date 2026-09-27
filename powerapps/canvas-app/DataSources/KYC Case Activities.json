@@ -1,5 +1,10 @@
 [
   {
+    "ApiId": "/kyc_caseactivity",
+    "CdsActionInfo": {
+      "CdsDataset": "default.cds",
+      "IsUnboundAction": false
+    },
     "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
     "EntitySetName": "kyc_caseactivities",
     "IsHidden": false,
@@ -52,5 +57,86 @@
     },
     "PreferredName": "KYC Case Activities",
     "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Action (KYC Case Activities)",
+    "Name": "kyc_caseactivity_kyc_action",
+    "OptionSetInfoNameMapping": {
+      "100000000": "Submitted",
+      "100000001": "Assigned",
+      "100000002": "Info requested",
+      "100000003": "Info received",
+      "100000004": "Approved",
+      "100000005": "Escalated",
+      "100000006": "Note"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "kyc_action",
+        "OptionSetReferenceEntityName": "KYC Case Activities"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "kyc_action",
+    "RelatedEntityName": "KYC Case Activities",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (KYC Case Activities)",
+    "Name": "kyc_caseactivity_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "KYC Case Activities"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "KYC Case Activities",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (KYC Case Activities)",
+    "Name": "kyc_caseactivity_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "KYC Case Activities"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "KYC Case Activities",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "KYC Case Activities (Views)",
+    "Name": "_kyc_caseactivity_views",
+    "RelatedEntityName": "KYC Case Activities",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "060da9e8-ffb9-f111-aaaf-000d3ad65b89": "KYC Case Activities",
+      "74bb3306-8c73-4a57-aef9-77bfb9dd9148": "KYC Case Activity Advanced Find View",
+      "a28d1753-ca32-4bfc-97c1-79a2d929a5dc": "Active KYC Case Activities",
+      "66dab391-247d-43e6-9427-aa3e75c26add": "Quick Find Active KYC Case Activities",
+      "bcf9d16a-d500-42a2-aeb7-bb7a63a2e99c": "Inactive KYC Case Activities",
+      "152e6b30-51d2-47c0-9be1-c02674fb8af9": "KYC Case Activity Lookup View",
+      "25bef758-cbb4-4e67-9560-d9f60520e3c6": "KYC Case Activity Associated View"
+    }
   }
 ]

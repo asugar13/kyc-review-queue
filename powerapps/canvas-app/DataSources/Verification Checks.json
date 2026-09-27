@@ -1,5 +1,10 @@
 [
   {
+    "ApiId": "/kyc_verificationcheck",
+    "CdsActionInfo": {
+      "CdsDataset": "default.cds",
+      "IsUnboundAction": false
+    },
     "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
     "EntitySetName": "kyc_verificationchecks",
     "IsHidden": false,
@@ -51,5 +56,82 @@
     },
     "PreferredName": "Verification Checks",
     "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Result (Verification Checks)",
+    "Name": "kyc_verificationcheck_kyc_result",
+    "OptionSetInfoNameMapping": {
+      "100000000": "Pass",
+      "100000001": "Review",
+      "100000002": "Fail"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "kyc_result",
+        "OptionSetReferenceEntityName": "Verification Checks"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "kyc_result",
+    "RelatedEntityName": "Verification Checks",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (Verification Checks)",
+    "Name": "kyc_verificationcheck_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Verification Checks"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Verification Checks",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Verification Checks)",
+    "Name": "kyc_verificationcheck_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Verification Checks"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Verification Checks",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Verification Checks (Views)",
+    "Name": "_kyc_verificationcheck_views",
+    "RelatedEntityName": "Verification Checks",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "96d404dc-ffb9-f111-aaaf-000d3ad65b89": "Verification Checks",
+      "07912dc1-ecf3-4f69-8908-345a2277ea0f": "Quick Find Active Verification Checks",
+      "60067916-58bd-442b-a3b9-7c63f2372b2d": "Active Verification Checks",
+      "f6bdc023-d190-4c60-b76f-827b03ec5127": "Verification Check Lookup View",
+      "8a507f5e-670c-472a-a844-8d568ad20a27": "Verification Check Advanced Find View",
+      "ddedc365-1775-4215-8d94-9f9a5c0bf681": "Verification Check Associated View",
+      "e9e62037-9d91-4013-aa47-a3410b354e0d": "Inactive Verification Checks"
+    }
   }
 ]

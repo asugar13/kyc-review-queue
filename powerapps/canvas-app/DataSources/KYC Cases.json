@@ -1,5 +1,10 @@
 [
   {
+    "ApiId": "/kyc_case",
+    "CdsActionInfo": {
+      "CdsDataset": "default.cds",
+      "IsUnboundAction": false
+    },
     "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
     "EntitySetName": "kyc_cases",
     "IsHidden": false,
@@ -65,5 +70,124 @@
     },
     "PreferredName": "KYC Cases",
     "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Risk level (KYC Cases)",
+    "Name": "kyc_case_kyc_risklevel",
+    "OptionSetInfoNameMapping": {
+      "100000000": "Low",
+      "100000001": "Medium",
+      "100000002": "High"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "kyc_risklevel",
+        "OptionSetReferenceEntityName": "KYC Cases"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "kyc_risklevel",
+    "RelatedEntityName": "KYC Cases",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (KYC Cases)",
+    "Name": "kyc_case_kyc_status",
+    "OptionSetInfoNameMapping": {
+      "100000000": "Pending",
+      "100000001": "Info requested",
+      "100000002": "Approved",
+      "100000003": "Escalated"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "kyc_status",
+        "OptionSetReferenceEntityName": "KYC Cases"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "kyc_status",
+    "RelatedEntityName": "KYC Cases",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (KYC Cases)",
+    "Name": "kyc_case_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "KYC Cases"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "KYC Cases",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (KYC Cases)",
+    "Name": "kyc_case_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "KYC Cases"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "KYC Cases",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Flagged (KYC Cases)",
+    "Name": "kyc_case_kyc_flagged",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "kyc_flagged",
+        "OptionSetReferenceEntityName": "KYC Cases"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "kyc_flagged",
+    "RelatedEntityName": "KYC Cases",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "KYC Cases (Views)",
+    "Name": "_kyc_case_views",
+    "RelatedEntityName": "KYC Cases",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "450982bc-ffb9-f111-aaaf-000d3ad65b89": "KYC Cases",
+      "ecbfbec9-f767-440f-91cd-00597b92b9fe": "KYC Case Associated View",
+      "0c898555-2695-49fd-a9d8-21edfd453059": "Inactive KYC Cases",
+      "f263553c-7ed3-418d-a061-32b5dbdb186f": "KYC Case Advanced Find View",
+      "dd0865c2-2c38-4ef9-b053-7d2e61b84ad5": "Active KYC Cases",
+      "0882f943-a668-4941-8df1-d34d4026aff4": "KYC Case Lookup View",
+      "6f431403-4d40-49f1-8656-f7463db5975d": "Quick Find Active KYC Cases"
+    }
   }
 ]

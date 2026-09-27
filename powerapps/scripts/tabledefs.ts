@@ -26,10 +26,31 @@ interface RelationshipMeta {
   ReferencedEntityNavigationPropertyName?: string;
 }
 interface EntityMeta {
+  DisplayCollectionName: Label;
   Attributes: AttributeMeta[];
   OneToManyRelationships: RelationshipMeta[];
   ManyToOneRelationships: RelationshipMeta[];
   EntitySetName: string;
+}
+interface Label {
+  UserLocalizedLabel?: { Label: string } | null;
+}
+interface OptionSetMeta {
+  Name: string;
+  IsGlobal: boolean;
+  DisplayName?: Label;
+  Options?: { Value: number; Label: Label }[];
+  TrueOption?: { Value: number; Label: Label };
+  FalseOption?: { Value: number; Label: Label };
+}
+interface OptionSetAttribute {
+  LogicalName: string;
+  DisplayName: Label;
+  OptionSet: OptionSetMeta;
+}
+interface SavedQuery {
+  savedqueryid: string;
+  name: string;
 }
 interface DataSourceDef {
   Name: string;
@@ -97,12 +118,60 @@ function nameMapping(entity: EntityMeta): Record<string, string> {
   return Object.fromEntries(Object.entries(map).sort(([a], [b]) => a.localeCompare(b)));
 }
 
+const label = (l: Label | undefined): string => l?.UserLocalizedLabel?.Label ?? '';
+
+// Studio registers one OptionSetInfo data source per choice/yes-no/state/status column and one
+// ViewInfo per table next to the NativeCDSDataSourceInfo entry; formulas like
+// 'Case status (KYC Cases)'.Approved resolve against these.
+const OPTIONSET_TYPE_KEYS: Record<string, string> = {
+  PicklistOptionSetAttribute: 'PicklistType',
+  MultiSelectPicklistOptionSetAttribute: 'MultiSelectPicklistType',
+  StateOptionSetAttribute: 'StateType',
+  StatusOptionSetAttribute: 'StatusType',
+  BooleanOptionSetAttribute: 'BooleanType',
+};
+function derivedSources(table: string, logicalName: string, def: Record<string, string>): DataSourceDef[] {
+  const out: DataSourceDef[] = [];
+  for (const [key, typeKey] of Object.entries(OPTIONSET_TYPE_KEYS)) {
+    const attrs = (JSON.parse(def[key] ?? '{"value":[]}') as { value: OptionSetAttribute[] }).value;
+    for (const a of attrs) {
+      const os = a.OptionSet;
+      const isBool = typeKey === 'BooleanType';
+      const options = isBool ? [os.FalseOption!, os.TrueOption!] : (os.Options ?? []);
+      out.push({
+        DisplayName: os.IsGlobal ? label(os.DisplayName) : `${label(a.DisplayName)} (${table})`,
+        Name: os.Name,
+        OptionSetInfoNameMapping: Object.fromEntries(options.map((o) => [String(o.Value), label(o.Label)])),
+        OptionSetIsBooleanValued: isBool,
+        OptionSetIsGlobal: os.IsGlobal,
+        OptionSetReference: {
+          OptionSetReferenceItem0: { OptionSetReferenceColumnName: a.LogicalName, OptionSetReferenceEntityName: table },
+        },
+        OptionSetTypeKey: typeKey,
+        RelatedColumnInvariantName: a.LogicalName,
+        RelatedEntityName: table,
+        Type: 'OptionSetInfo',
+      });
+    }
+  }
+  const views = (JSON.parse(def.Views ?? '{"value":[]}') as { value: SavedQuery[] }).value;
+  out.push({
+    DisplayName: `${table} (Views)`,
+    Name: `_${logicalName}_views`,
+    RelatedEntityName: table,
+    TrimmedViewName: true,
+    Type: 'ViewInfo',
+    ViewInfoNameMapping: Object.fromEntries(views.map((v) => [v.savedqueryid, v.name])),
+  });
+  return out;
+}
+
 const dsDir = join(HERE, 'DataSources');
 for (const file of readdirSync(dsDir)) {
   const path = join(dsDir, file);
-  const sources = JSON.parse(readFileSync(path, 'utf8')) as DataSourceDef[];
+  let sources = JSON.parse(readFileSync(path, 'utf8')) as DataSourceDef[];
   let changed = false;
-  for (const ds of sources) {
+  for (const ds of sources.filter((d) => d.Type === 'NativeCDSDataSourceInfo')) {
     if (ds.Type !== 'NativeCDSDataSourceInfo' || !ds.LogicalName) continue;
     const { def, entity } = await tableDefinition(ds.LogicalName);
     const tdPath = join(HERE, 'pkgs', 'TableDefinitions', `${ds.Name}.json`);
@@ -114,6 +183,7 @@ for (const file of readdirSync(dsDir)) {
           EntityName: ds.Name,
           InstanceUrl: `${cfg.envUrl}/`,
           LocalReferenceDSJson: { entitySetName: entity.EntitySetName, logicalName: ds.LogicalName },
+          environmentVariableName: '',
           state: 'Configured',
           TableDefinition: def,
           UnusedDataSources: {},
@@ -124,6 +194,9 @@ for (const file of readdirSync(dsDir)) {
       ) + '\n',
     );
     ds.NativeCDSDataSourceInfoNameMapping = nameMapping(entity);
+    ds.ApiId = `/${ds.LogicalName}`;
+    ds.CdsActionInfo = { CdsDataset: 'default.cds', IsUnboundAction: false };
+    sources = [ds, ...derivedSources(ds.Name, ds.LogicalName, def)];
     changed = true;
     console.log(`${ds.LogicalName}: ${entity.Attributes.length} attributes -> ${tdPath}`);
   }
