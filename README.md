@@ -193,6 +193,9 @@ decision and locks Approved / Escalated cases.
 
 - Play: <https://org64ad231d.crm11.dynamics.com/main.aspx?appid=79defb02-eb8a-47ae-bdbf-e4a466dc89ff>
 - Design notes: `powerapps-model/model-app-plan.md` (generated from the spec).
+- Rebuild: `build-model-app.js --apply --publish --verify` from Microsoft's `model-apps` plugin, then
+  `node powerapps-model/postbuild.mts` (same `PP_*` env vars as the Dataverse scripts) to refresh the
+  form script and declare it on the form — two things the builder does not redo on a rebuild.
 
 Business rules could not be created in this environment (the `CreateProcessWithWfomJson` member
 rejects every rule with HTTP 400), so the reason-required / final-state logic lives in the form's

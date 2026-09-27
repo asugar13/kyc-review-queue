@@ -15,5 +15,5 @@
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["scripts"]
+  "include": ["scripts", "../powerapps-model/*.mts"]
 }

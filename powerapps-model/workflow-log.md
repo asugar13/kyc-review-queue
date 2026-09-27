@@ -22,3 +22,8 @@ Decision: dropped `businessRules[]`; the same logic (reason required on any deci
 Second full run → build complete (14 created, 32 reused, 0 failed), publish ok, `verify PASS (61/61 present)`. App `KYC Review (model-driven)` = `79defb02-eb8a-47ae-bdbf-e4a466dc89ff`.
 Post-build fixes applied directly via Web API: the reused web resource kept its first-run content (no `onLoad`) → PATCHed `webresourceset` content + PublishXml; the form's `<events>` referenced the library without a `<formLibraries>` entry → PATCHed `systemforms.formxml` to add it + PublishXml(kyc_case).
 Read-back: appmodule active, form has 2 handlers + 2 sub-grids (checks, history), Review queue view filters status ∈ {Pending, Info requested}, web resource content contains `onLoad`.
+
+## Review round 1 (Devin Review on d126528)
+
+`kyc_casecommands.js`: decisions now re-read `kyc_status` via `Xrm.WebApi.retrieveRecord` and refuse if another reviewer already finalised the case; require the reason field to be freshly edited (`getIsDirty()`), since seeded cases carry the routing reason that put them in the queue; write the activity row before saving the case so a failure cannot leave a final case without history.
+`postbuild.mts` replaces the two manual Web API fixes (web-resource content refresh, `<formLibraries>` declaration) so a rebuild is reproducible: `node powerapps-model/postbuild.mts`. Run once → updated the web resource with the new script; form already declared the library.
