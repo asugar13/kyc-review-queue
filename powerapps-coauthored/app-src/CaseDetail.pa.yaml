@@ -3,6 +3,7 @@ Screens:
     Properties:
       Fill: =RGBA(245, 246, 250, 1)
       LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: =Reset(txtDetReason)
     Children:
       - conDetRoot:
           Control: GroupContainer
@@ -39,7 +40,7 @@ Screens:
                         Height: =36
                         Width: =150
                         FillPortions: =0
-                        OnSelect: =Navigate(Screen1)
+                        OnSelect: =Reset(txtDetReason); Navigate(Screen1)
                   - txtDetTitle:
                       Control: ModernText
                       Properties:
@@ -395,6 +396,7 @@ Screens:
                         Height: =40
                         FillPortions: =1
                         LayoutMinWidth: =200
+                        MaxLength: =2000
                         DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.View, DisplayMode.Edit)
                   - btnDetApprove:
                       Control: ModernButton
@@ -405,23 +407,31 @@ Screens:
                         Height: =40
                         Width: =120
                         FillPortions: =0
-                        DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.Disabled, If(Len(Trim(txtDetReason.Text)) = 0, DisplayMode.Disabled, DisplayMode.Edit))
+                        DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.Disabled, If(Len(Trim(txtDetReason.Text)) = 0 || Len(txtDetReason.Text) > 2000, DisplayMode.Disabled, DisplayMode.Edit))
                         OnSelect: |-
-                          =Set(varSelectedCase, Patch('KYC Cases', varSelectedCase, {
-                            kyc_status: 'Status (KYC Cases)'.Approved,
-                            kyc_decidedat: Now(),
-                            kyc_reviewreason: txtDetReason.Text
-                          }));
-                          Patch('KYC Case Activities', Defaults('KYC Case Activities'), {
-                            kyc_name: "Case approved",
-                            kyc_action: 'Action (KYC Case Activities)'.Approved,
-                            kyc_reason: txtDetReason.Text,
-                            kyc_reviewer: User().FullName,
-                            kyc_occurredat: Now(),
-                            kyc_Case: varSelectedCase
-                          });
-                          Notify("Case approved", NotificationType.Success);
-                          Reset(txtDetReason)
+                          =Set(varDetCase, LookUp('KYC Cases', kyc_caseid = varSelectedCase.kyc_caseid));
+                          If(varDetCase.kyc_status = 'Status (KYC Cases)'.Approved || varDetCase.kyc_status = 'Status (KYC Cases)'.Escalated,
+                            Set(varSelectedCase, varDetCase);
+                            Notify("This case is already finalized", NotificationType.Error),
+                            Set(varDetCase, Patch('KYC Cases', varDetCase, {
+                              kyc_status: 'Status (KYC Cases)'.Approved,
+                              kyc_decidedat: Now()
+                            }));
+                            Set(varSelectedCase, varDetCase);
+                            IfError(
+                              Patch('KYC Case Activities', Defaults('KYC Case Activities'), {
+                                kyc_name: "Case approved",
+                                kyc_action: 'Action (KYC Case Activities)'.Approved,
+                                kyc_reason: txtDetReason.Text,
+                                kyc_reviewer: User().FullName,
+                                kyc_occurredat: Now(),
+                                kyc_Case: varDetCase
+                              }),
+                              Notify("Decision saved but activity log failed", NotificationType.Error)
+                            );
+                            Notify("Case approved", NotificationType.Success);
+                            Reset(txtDetReason)
+                          )
                   - btnDetRequestInfo:
                       Control: ModernButton
                       Properties:
@@ -430,22 +440,30 @@ Screens:
                         Height: =40
                         Width: =130
                         FillPortions: =0
-                        DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.Disabled, If(Len(Trim(txtDetReason.Text)) = 0, DisplayMode.Disabled, DisplayMode.Edit))
+                        DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.Disabled, If(Len(Trim(txtDetReason.Text)) = 0 || Len(txtDetReason.Text) > 2000, DisplayMode.Disabled, DisplayMode.Edit))
                         OnSelect: |-
-                          =Set(varSelectedCase, Patch('KYC Cases', varSelectedCase, {
-                            kyc_status: 'Status (KYC Cases)'.'Info requested',
-                            kyc_reviewreason: txtDetReason.Text
-                          }));
-                          Patch('KYC Case Activities', Defaults('KYC Case Activities'), {
-                            kyc_name: "Info requested",
-                            kyc_action: 'Action (KYC Case Activities)'.'Info requested',
-                            kyc_reason: txtDetReason.Text,
-                            kyc_reviewer: User().FullName,
-                            kyc_occurredat: Now(),
-                            kyc_Case: varSelectedCase
-                          });
-                          Notify("Info requested from applicant", NotificationType.Information);
-                          Reset(txtDetReason)
+                          =Set(varDetCase, LookUp('KYC Cases', kyc_caseid = varSelectedCase.kyc_caseid));
+                          If(varDetCase.kyc_status = 'Status (KYC Cases)'.Approved || varDetCase.kyc_status = 'Status (KYC Cases)'.Escalated,
+                            Set(varSelectedCase, varDetCase);
+                            Notify("This case is already finalized", NotificationType.Error),
+                            Set(varDetCase, Patch('KYC Cases', varDetCase, {
+                              kyc_status: 'Status (KYC Cases)'.'Info requested'
+                            }));
+                            Set(varSelectedCase, varDetCase);
+                            IfError(
+                              Patch('KYC Case Activities', Defaults('KYC Case Activities'), {
+                                kyc_name: "Info requested",
+                                kyc_action: 'Action (KYC Case Activities)'.'Info requested',
+                                kyc_reason: txtDetReason.Text,
+                                kyc_reviewer: User().FullName,
+                                kyc_occurredat: Now(),
+                                kyc_Case: varDetCase
+                              }),
+                              Notify("Decision saved but activity log failed", NotificationType.Error)
+                            );
+                            Notify("Info requested from applicant", NotificationType.Information);
+                            Reset(txtDetReason)
+                          )
                   - btnDetEscalate:
                       Control: ModernButton
                       Properties:
@@ -455,20 +473,28 @@ Screens:
                         Height: =40
                         Width: =120
                         FillPortions: =0
-                        DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.Disabled, If(Len(Trim(txtDetReason.Text)) = 0, DisplayMode.Disabled, DisplayMode.Edit))
+                        DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.Disabled, If(Len(Trim(txtDetReason.Text)) = 0 || Len(txtDetReason.Text) > 2000, DisplayMode.Disabled, DisplayMode.Edit))
                         OnSelect: |-
-                          =Set(varSelectedCase, Patch('KYC Cases', varSelectedCase, {
-                            kyc_status: 'Status (KYC Cases)'.Escalated,
-                            kyc_decidedat: Now(),
-                            kyc_reviewreason: txtDetReason.Text
-                          }));
-                          Patch('KYC Case Activities', Defaults('KYC Case Activities'), {
-                            kyc_name: "Case escalated",
-                            kyc_action: 'Action (KYC Case Activities)'.Escalated,
-                            kyc_reason: txtDetReason.Text,
-                            kyc_reviewer: User().FullName,
-                            kyc_occurredat: Now(),
-                            kyc_Case: varSelectedCase
-                          });
-                          Notify("Case escalated", NotificationType.Warning);
-                          Reset(txtDetReason)
+                          =Set(varDetCase, LookUp('KYC Cases', kyc_caseid = varSelectedCase.kyc_caseid));
+                          If(varDetCase.kyc_status = 'Status (KYC Cases)'.Approved || varDetCase.kyc_status = 'Status (KYC Cases)'.Escalated,
+                            Set(varSelectedCase, varDetCase);
+                            Notify("This case is already finalized", NotificationType.Error),
+                            Set(varDetCase, Patch('KYC Cases', varDetCase, {
+                              kyc_status: 'Status (KYC Cases)'.Escalated,
+                              kyc_decidedat: Now()
+                            }));
+                            Set(varSelectedCase, varDetCase);
+                            IfError(
+                              Patch('KYC Case Activities', Defaults('KYC Case Activities'), {
+                                kyc_name: "Case escalated",
+                                kyc_action: 'Action (KYC Case Activities)'.Escalated,
+                                kyc_reason: txtDetReason.Text,
+                                kyc_reviewer: User().FullName,
+                                kyc_occurredat: Now(),
+                                kyc_Case: varDetCase
+                              }),
+                              Notify("Decision saved but activity log failed", NotificationType.Error)
+                            );
+                            Notify("Case escalated", NotificationType.Warning);
+                            Reset(txtDetReason)
+                          )

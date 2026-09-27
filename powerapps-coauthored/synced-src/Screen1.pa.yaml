@@ -92,15 +92,6 @@ Screens:
                         X: =6
                         Y: =6
                       Children:
-                        - rctQueueOpen:
-                            Control: Rectangle
-                            Properties:
-                              Fill: =RGBA(0, 0, 0, 0)
-                              Height: =Parent.Height
-                              OnSelect: |-
-                                =Set(varSelectedCase, ThisItem);
-                                Navigate(CaseDetail)
-                              Width: =Parent.Width
                         - txtQueueApplicant:
                             Control: ModernText
                             Properties:
@@ -164,3 +155,12 @@ Screens:
                               Width: =100
                               X: =Parent.Width - 140
                               Y: =8
+                        - rctQueueOpen:
+                            Control: Rectangle
+                            Properties:
+                              Fill: =RGBA(0, 0, 0, 0)
+                              Height: =Parent.Height
+                              OnSelect: |-
+                                =Set(varSelectedCase, ThisItem);
+                                Navigate(CaseDetail)
+                              Width: =Parent.Width
