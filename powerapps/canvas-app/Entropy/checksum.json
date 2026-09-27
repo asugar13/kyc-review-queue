@@ -1,13 +1,15 @@
 {
   "ClientPerFileChecksums": {
-    "Controls\\3.json": "C8_hahQjhahKPYbh5eUSxqeSJeuHcXK3TaJsGw5Zl1YC6I=",
+    "Controls\\1.json": "C8_8/ZQDn9uxA6QF/gngGaKF1FSVsK7Qzw1kdbTjtEsUQ0=",
+    "Controls\\3.json": "C8_199VkL5sXN4fKMLcQs/3lDZlZWYnCM6OA8DlaaXELUk=",
     "Controls\\4.json": "C8_LP8OxjyTCmgTKkzMKvtXZUBTvbNXMH9mJrBbIthAc+I=",
     "Header.json": "C8_tuYoO1iJ+ZlD4votzQJgPlqq5qJEhItaQHw4Hr+87+A=",
-    "Properties.json": "C8_uKa/Jp46I+aNVWmSEl6Ya1eMtALJ4XvS34j+QwU+4DA=",
+    "Properties.json": "C8_aWvjoXuR2zGMG+udBxwqsQdIINMFOqmyBv/zEPQVUvs=",
     "References\\DataSources.json": "C8_QgOyEEsc9TmMVknO6Cb+2I9TVPC68kbQntJWXGa9g7s=",
+    "References\\DynamicTypes.json": "C8_uNJ/nm/IemD7HlIwVsBSwvFm9+/PyloSsgv+Hrd4jUw=",
     "References\\Resources.json": "C8_o8YVeUoBOQZMN+H7s7E9s1TDtWtrOeuiBA3wJXAjo2Y=",
     "References\\Templates.json": "C8_2l2Ylx+nB/CgSBFFcvwKNRcE3KA5UzIEtGW33OSAAs8=",
     "References\\Themes.json": "C8_ZmOZ3yanJzZ5+YjGorcki7LkZCUaqiVHwvrhF+vbvAk="
   },
-  "ClientStampedChecksum": "C8_cHfmebGck94Cjq/1tF2CpFq/qdrN/SGJRY1sMIoeILs="
+  "ClientStampedChecksum": "C8_MshUH2zKcDz3nH4UllPDw6tudQN1kM4prWZomcwLuDM="
 }

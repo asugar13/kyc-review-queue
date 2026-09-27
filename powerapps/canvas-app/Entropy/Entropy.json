@@ -5,6 +5,7 @@
   "ControlUniqueIds": {
     "ActingAsDetailLabel": 67,
     "ActingAsLabel": 8,
+    "App": 1,
     "ApplicantHeading": 38,
     "ApplicantLabel": 24,
     "ApproveButton": 63,
@@ -95,6 +96,7 @@
   "PublishOrderIndices": {
     "ActingAsDetailLabel": 51,
     "ActingAsLabel": 5,
+    "App": 0,
     "ApplicantHeading": 36,
     "ApplicantLabel": 23,
     "ApproveButton": 47,
