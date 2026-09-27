@@ -1,6 +1,7 @@
-# Parallel experiment: canvas-authoring MCP vs pac canvas pack
+# canvas-authoring MCP vs pac canvas pack
 
-Companion to the `KYCReviewQueue` packed-msapp attempt (PR #4). This app —
+Comparison against the hand-authored `.pa.yaml` + `pac canvas pack` attempt
+(PR #4, now closed — Studio could not open the resulting `.msapp`). This app —
 **"KYC Review Queue coauthored"** (app id `6344a16e-0ddd-4083-b5eb-518f13f4116d`)
 — was authored through Microsoft's blessed path: the
 `Microsoft.PowerApps.CanvasAuthoring.McpServer` MCP tools running against a live

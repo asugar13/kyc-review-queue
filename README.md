@@ -140,15 +140,18 @@ server/            Express API
   src/app.ts       routes + error handling
   src/index.ts     entrypoint
   test/            node:test suite
-powerapps/         Power Apps canvas app + Dataverse version (see below)
+powerapps/         Dataverse provisioning + seed scripts for the Power Apps version
+powerapps-coauthored/  Power Apps canvas app source (.pa.yaml) + MCP report
 ```
 
 ## Power Apps version (part B)
 
 The same workflow is also built as a **Power Apps canvas app backed by Dataverse**,
-so the two stacks can be compared side by side. Everything lives under `powerapps/`
-and is reviewable as source; nothing is hand-edited in the maker portal that is not
-also in this repo.
+so the two stacks can be compared side by side. The app is authored through the
+Microsoft canvas-authoring MCP server against a live Studio coauthoring session;
+the `.pa.yaml` source lives under `powerapps-coauthored/` (`app-src/` is the
+authored source, `synced-src/` the server-normalized snapshot, `REPORT.md` the
+notes on what worked and what did not).
 
 ### Open it in the maker portal
 
@@ -157,35 +160,26 @@ The app is deployed to the provisioned environment `https://org64ad231d.crm11.dy
 
 1. Sign in to <https://make.powerapps.com> with an account that has access to that
    environment and pick it in the environment switcher (top right).
-2. **Solutions → KYC Review Queue** (unique name `KYCReviewQueue`, publisher prefix `kyc`).
-   The solution contains the three tables and the canvas app.
-3. Open the canvas app **KYC Review Queue** (`kyc_kycreviewqueue_7c2e1`) with **Edit** to
-   load it in Power Apps Studio, or **Play** to run it. Direct links:
-   - Edit: <https://make.powerapps.com/environments/b76846b4-0c24-e4d8-952c-46ffa09ad6a8/apps/92f459e2-451c-4b1b-8bd1-a8c51b9de363>
-   - Play: <https://apps.powerapps.com/play/e/b76846b4-0c24-e4d8-952c-46ffa09ad6a8/a/92f459e2-451c-4b1b-8bd1-a8c51b9de363?tenantId=c6a3b549-494b-4711-b35d-2671b4f06cde>
-4. **Tables → KYC Case / Verification Check / KYC Case Activity** show the seeded
+2. Open the canvas app **KYC Review Queue coauthored**
+   (`6344a16e-0ddd-4083-b5eb-518f13f4116d`) with **Edit** to load it in Power Apps
+   Studio, or **Play** to run it. Direct links:
+   - Edit: <https://make.powerapps.com/environments/b76846b4-0c24-e4d8-952c-46ffa09ad6a8/apps/6344a16e-0ddd-4083-b5eb-518f13f4116d>
+   - Play: <https://apps.powerapps.com/play/e/b76846b4-0c24-e4d8-952c-46ffa09ad6a8/a/6344a16e-0ddd-4083-b5eb-518f13f4116d?tenantId=c6a3b549-494b-4711-b35d-2671b4f06cde>
+3. **Tables → KYC Case / Verification Check / KYC Case Activity** show the seeded
    synthetic records (same 8 applicants as the SQLite seed, `KYC-1042` and `KYC-1045`
    flagged).
 
-The app was built and imported headlessly with `pac`, so the first time Studio opens it,
-it may ask to refresh the Dataverse data sources (the packed table metadata is minimal
-and Studio fetches the live schema). Accept the refresh; no formulas need to change.
-
-### What is in `powerapps/`
+### What is in `powerapps/` and `powerapps-coauthored/`
 
 ```
 powerapps/
-  canvas-app/          pac canvas unpack output (Experimental layout)
-    Src/QueueScreen.fx.yaml    queue: status filter, name/reference search, gallery
-    Src/DetailScreen.fx.yaml   detail: fields, simulated checks, history, decisions
-    DataSources/               Dataverse tables the app binds to
-    pkgs/                      table definitions + gallery control template
-  solution/            pac solution unpack output (tables, relationships, app metadata)
   scripts/
     provision.ts       creates publisher, solution, tables, columns, relationships (Web API)
     seed.ts            seeds the synthetic cases, checks and history (reuses server/src/seed.ts)
-    deploy.sh          pac canvas pack -> pac solution pack -> pac solution import
-    unpack.sh          export from the environment and refresh canvas-app/ + solution/
+powerapps-coauthored/
+  app-src/             authored .pa.yaml (screens, controls, Power Fx)
+  synced-src/          server-normalized .pa.yaml from sync_canvas
+  REPORT.md            MCP authoring path: what worked vs. did not
 ```
 
 Dataverse schema (publisher prefix `kyc`):
@@ -203,10 +197,9 @@ information** and **Escalate** all require a written reason of at least 10 chara
 (`Patch` on `KYC Cases` plus a new `KYC Case Activities` row); approved and escalated
 cases are final and the decision controls are disabled.
 
-### Rebuilding / redeploying
+### Reprovisioning the Dataverse schema
 
-Requires the [Power Platform CLI](https://learn.microsoft.com/power-platform/developer/cli/introduction)
-(`pac`, tested with 2.12) and Node 22+.
+Requires Node 22+ and a service principal with access to the environment.
 
 ```bash
 export PP_ENV_URL=https://org64ad231d.crm11.dynamics.com
@@ -215,12 +208,11 @@ export PP_CLIENT_ID=... PP_CLIENT_SECRET=...        # service principal (applica
 
 npm run provision -w powerapps     # idempotent: publisher, solution, tables, relationships
 npm run seed -w powerapps          # idempotent; add --reset to wipe and reseed
-
-pac auth create --url "$PP_ENV_URL" --applicationId "$PP_CLIENT_ID" \
-  --clientSecret "$PP_CLIENT_SECRET" --tenant "$PP_TENANT_ID" --accept-cleartext-caching
-npm run deploy -w powerapps        # pack canvas app + solution, import, publish
-npm run unpack -w powerapps        # pull Studio edits back into source
 ```
+
+Canvas app changes are made in `powerapps-coauthored/app-src/` and pushed to
+Studio with the canvas-authoring MCP's `compile_canvas`/`sync_canvas`; the app is
+published from Studio.
 
 Out of scope, as in part A: real identity verification, real PII, non-Dataverse
 connectors and production polish.

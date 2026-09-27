@@ -3,12 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Dataverse provisioning + seed scripts and unpacked canvas app source for the Power Apps version of the KYC review queue.",
+  "description": "Dataverse provisioning + seed scripts for the Power Apps version of the KYC review queue. The canvas app itself is authored via the canvas-authoring MCP; see powerapps-coauthored/.",
   "scripts": {
     "provision": "node scripts/provision.ts",
     "seed": "node scripts/seed.ts",
-    "deploy": "scripts/deploy.sh",
-    "unpack": "scripts/unpack.sh",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "devDependencies": {
