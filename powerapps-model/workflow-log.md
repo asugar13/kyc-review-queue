@@ -27,3 +27,9 @@ Read-back: appmodule active, form has 2 handlers + 2 sub-grids (checks, history)
 
 `kyc_casecommands.js`: decisions now re-read `kyc_status` via `Xrm.WebApi.retrieveRecord` and refuse if another reviewer already finalised the case; require the reason field to be freshly edited (`getIsDirty()`), since seeded cases carry the routing reason that put them in the queue; write the activity row before saving the case so a failure cannot leave a final case without history.
 `postbuild.mts` replaces the two manual Web API fixes (web-resource content refresh, `<formLibraries>` declaration) so a rebuild is reproducible: `node powerapps-model/postbuild.mts`. Run once → updated the web resource with the new script; form already declared the library.
+
+## Views (after first Play check)
+
+The app opened on the platform's stock **Active KYC Cases** view (case reference + Created On only) and its keyword filter only matched the case reference. `postbuild.mts` now also: sets `Review queue` as the default view; creates `Quick Find KYC Cases` (querytype 4) searching `kyc_name / kyc_applicantname / kyc_email / kyc_assignedreviewer` and showing the queue columns, and makes it the default Quick Find; deactivates `Active` / `Inactive KYC Cases`.
+Platform quirks found on the way: `isdefault` is not exclusive (promoting a view leaves the old flag set, and a view still flagged default cannot be deactivated → clear the flag first); every `fetchxml` PATCH on a Quick Find view returns HTTP 400 `0x80040216` — even an unchanged payload, on every table — while creating a new Quick Find view works, so the stock one is left in place (it is not public, so it cannot be deactivated) with its default flag cleared.
+Read-back after run: querytype 0 → Review queue (default), Flagged cases, All cases active; Active/Inactive KYC Cases statecode 1. querytype 4 → Quick Find KYC Cases default; second run is a no-op.
