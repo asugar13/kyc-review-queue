@@ -1,5 +1,5 @@
 {
-  "CurrentTheme": "defaultTheme",
+  "CurrentTheme": "v9WebLightTheme",
   "CustomThemes": [
     {
       "name": "defaultTheme",
@@ -7,7 +7,7 @@
         {
           "name": "ScreenBkgColor",
           "type": "c",
-          "value": "RGBA(255, 255, 255, 1)"
+          "value": "%Color.RESERVED%.White"
         },
         {
           "name": "InvertedBkgColor",
@@ -48,6 +48,11 @@
           "name": "PrimaryColor3Fade",
           "type": "c",
           "value": "ColorFade(RGBA(186, 202, 226, 1), 70%)"
+        },
+        {
+          "name": "Transparency",
+          "type": "c",
+          "value": "RGBA(0, 0, 0, 0)"
         },
         {
           "name": "TextMainColor",
@@ -236,6 +241,46 @@
           "value": "16"
         },
         {
+          "name": "TextTitleFontSize_galleryLayouts_ver5",
+          "type": "n",
+          "value": "14"
+        },
+        {
+          "name": "TextSubtitleFontSize_galleryLayouts_ver5",
+          "type": "n",
+          "value": "12"
+        },
+        {
+          "name": "TextContentFontSize_galleryLayouts_ver5",
+          "type": "n",
+          "value": "12"
+        },
+        {
+          "name": "DividerColor2020",
+          "type": "c",
+          "value": "RGBA(255, 255, 255, 1)"
+        },
+        {
+          "name": "TextTitleColor_galleryLayouts_ver5",
+          "type": "c",
+          "value": "RGBA(50, 49, 48, 1)"
+        },
+        {
+          "name": "TableNameLabelPadding_copilotAppSinglePage",
+          "type": "n",
+          "value": "16"
+        },
+        {
+          "name": "SearchContainerFill_copilotAppPage",
+          "type": "c",
+          "value": "RGBA(245, 245, 245, 1)"
+        },
+        {
+          "name": "ContainerRadius",
+          "type": "n",
+          "value": "4"
+        },
+        {
           "name": "TextHeaderFontSize2020",
           "type": "n",
           "value": "16"
@@ -300,6 +345,26 @@
           "name": "DefaultSize2",
           "type": "n",
           "value": "13"
+        },
+        {
+          "name": "DropTargetBorderColor",
+          "type": "c",
+          "value": "RGBA(0, 0, 0, 1)"
+        },
+        {
+          "name": "DropTargetBackgroundColor",
+          "type": "c",
+          "value": "RGBA(255, 255, 255, 0.8)"
+        },
+        {
+          "name": "DropTargetTextColor",
+          "type": "c",
+          "value": "RGBA(0, 0, 0, 1)"
+        },
+        {
+          "name": "DropTargetBorderThickness",
+          "type": "n",
+          "value": "2"
         }
       ],
       "styles": [
@@ -722,6 +787,186 @@
             {
               "property": "Size",
               "value": "%Palette.TextContentFontSize%"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "label",
+          "name": "titleLabelStyle_galleryLayouts_ver5",
+          "propertyValuesMap": [
+            {
+              "property": "Color",
+              "value": "%Palette.TextTitleColor_galleryLayouts_ver5%"
+            },
+            {
+              "property": "DisabledColor",
+              "value": "%Palette.DisabledTextMainColor%"
+            },
+            {
+              "property": "Font",
+              "value": "%Palette.TextBodyFontFace%"
+            },
+            {
+              "property": "Size",
+              "value": "%Palette.TextTitleFontSize_galleryLayouts_ver5%"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "label",
+          "name": "subtitleLabelStyle_galleryLayouts_ver5",
+          "propertyValuesMap": [
+            {
+              "property": "Color",
+              "value": "%Palette.TextMainColor%"
+            },
+            {
+              "property": "DisabledColor",
+              "value": "%Palette.DisabledTextMainColor%"
+            },
+            {
+              "property": "Font",
+              "value": "%Palette.TextBodyFontFace%"
+            },
+            {
+              "property": "Size",
+              "value": "%Palette.TextSubtitleFontSize_galleryLayouts_ver5%"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "label",
+          "name": "contentLabelStyle_galleryLayouts_ver5",
+          "propertyValuesMap": [
+            {
+              "property": "Color",
+              "value": "%Palette.TextMainColor%"
+            },
+            {
+              "property": "DisabledColor",
+              "value": "%Palette.DisabledTextMainColor%"
+            },
+            {
+              "property": "Font",
+              "value": "%Palette.TextBodyFontFace%"
+            },
+            {
+              "property": "Size",
+              "value": "%Palette.TextContentFontSize_galleryLayouts_ver5%"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "rectangle",
+          "name": "dividerStyle2020",
+          "propertyValuesMap": [
+            {
+              "property": "Fill",
+              "value": "%Palette.DividerColor2020%"
+            },
+            {
+              "property": "BorderColor",
+              "value": "%Palette.InputBorderColor%"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "label",
+          "name": "tableNameLabelStyle_copilotAppSinglePage",
+          "propertyValuesMap": [
+            {
+              "property": "Color",
+              "value": "%Palette.ReservedWhiteColor%"
+            },
+            {
+              "property": "Fill",
+              "value": "%Palette.PrimaryColor1%"
+            },
+            {
+              "property": "PaddingLeft",
+              "value": "%Palette.TableNameLabelPadding_copilotAppSinglePage%"
+            },
+            {
+              "property": "PaddingRight",
+              "value": "%Palette.TableNameLabelPadding_copilotAppSinglePage%"
+            },
+            {
+              "property": "PaddingTop",
+              "value": "%Palette.TableNameLabelPadding_copilotAppSinglePage%"
+            },
+            {
+              "property": "PaddingBottom",
+              "value": "%Palette.TableNameLabelPadding_copilotAppSinglePage%"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "groupContainer",
+          "name": "containerStyle_copilotAppPage",
+          "propertyValuesMap": [
+            {
+              "property": "DropShadow",
+              "value": "%DropShadow.RESERVED%.None"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "groupContainer",
+          "name": "searchContainerStyle_copilotAppPage",
+          "propertyValuesMap": [
+            {
+              "property": "Fill",
+              "value": "%Palette.SearchContainerFill_copilotAppPage%"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "text",
+          "name": "searchInputStyle_copilotAppPage",
+          "propertyValuesMap": [
+            {
+              "property": "BorderStyle",
+              "value": "%BorderStyle.RESERVED%.None"
+            },
+            {
+              "property": "Fill",
+              "value": "%Palette.Transparency%"
+            },
+            {
+              "property": "HoverFill",
+              "value": "%Palette.Transparency%"
+            },
+            {
+              "property": "PressedFill",
+              "value": "%Palette.Transparency%"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "icon",
+          "name": "searchIconStyle_copilotAppPage",
+          "propertyValuesMap": [
+            {
+              "property": "Color",
+              "value": "%Palette.PrimaryColor1%"
+            },
+            {
+              "property": "Fill",
+              "value": "%Palette.Transparency%"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "icon",
+          "name": "headerIconStyle_copilotAppSinglePage",
+          "propertyValuesMap": [
+            {
+              "property": "Color",
+              "value": "%Palette.ReservedWhiteColor%"
+            },
+            {
+              "property": "Fill",
+              "value": "%Palette.PrimaryColor1%"
             }
           ]
         },
@@ -2054,6 +2299,26 @@
             {
               "property": "NoAttachmentsPaddingLeft",
               "value": "%Palette.NoAttachmentPaddingLeft%"
+            },
+            {
+              "property": "DropTargetBorderThickness",
+              "value": "%Palette.DropTargetBorderThickness%"
+            },
+            {
+              "property": "DropTargetBorderStyle",
+              "value": "%BorderStyle.RESERVED%.Dotted"
+            },
+            {
+              "property": "DropTargetBorderColor",
+              "value": "%Palette.DropTargetBorderColor%"
+            },
+            {
+              "property": "DropTargetBackgroundColor",
+              "value": "%Palette.DropTargetBackgroundColor%"
+            },
+            {
+              "property": "DropTargetTextColor",
+              "value": "%Palette.DropTargetTextColor%"
             }
           ]
         },
@@ -2785,7 +3050,7 @@
             },
             {
               "property": "Font",
-              "value": "%Font.RESERVED%.'Open Sans"
+              "value": "%Font.RESERVED%.'Open Sans'"
             },
             {
               "property": "Size",
@@ -3646,6 +3911,32 @@
             {
               "property": "BorderColor",
               "value": "%Palette.InputBorderColor%"
+            }
+          ]
+        },
+        {
+          "controlTemplateName": "groupContainer",
+          "name": "defaultGroupContainerStyle",
+          "propertyValuesMap": [
+            {
+              "property": "RadiusTopLeft",
+              "value": "%Palette.ContainerRadius%"
+            },
+            {
+              "property": "RadiusBottomRight",
+              "value": "%Palette.ContainerRadius%"
+            },
+            {
+              "property": "RadiusTopRight",
+              "value": "%Palette.ContainerRadius%"
+            },
+            {
+              "property": "RadiusBottomLeft",
+              "value": "%Palette.ContainerRadius%"
+            },
+            {
+              "property": "DropShadow",
+              "value": "%DropShadow.RESERVED%.Light"
             }
           ]
         },

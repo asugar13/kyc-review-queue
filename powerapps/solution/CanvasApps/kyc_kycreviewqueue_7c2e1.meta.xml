@@ -3,9 +3,9 @@
   <Name>kyc_kycreviewqueue_7c2e1</Name>
   <AppVersion>2026-09-26T23:35:26Z</AppVersion>
   <Status>Ready</Status>
-  <CreatedByClientVersion>3.26091.20.0</CreatedByClientVersion>
-  <MinClientVersion>3.26091.20.0</MinClientVersion>
-  <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","publisherVersion":"3.26091.20","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false"}</Tags>
+  <CreatedByClientVersion>3.26092.12.0</CreatedByClientVersion>
+  <MinClientVersion>3.26092.12.0</MinClientVersion>
+  <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","publisherVersion":"3.26092.12","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false","showStatusBar":"false","m365CopilotSettingValue":"0"}</Tags>
   <IsCdsUpgraded>0</IsCdsUpgraded>
   <GalleryItemId xsi:nil="true"></GalleryItemId>
   <BackgroundColor>RGBA(15,76,129,1)</BackgroundColor>
@@ -27,4 +27,7 @@
   <IsCustomizable>1</IsCustomizable>
   <BackgroundImageUri>/CanvasApps/kyc_kycreviewqueue_7c2e1_BackgroundImageUri</BackgroundImageUri>
   <DocumentUri>/CanvasApps/kyc_kycreviewqueue_7c2e1_DocumentUri.msapp</DocumentUri>
+  <AdditionalUris>
+    <AdditionalUri>/CanvasApps/kyc_kycreviewqueue_7c2e1_AdditionalUris0_identity.json</AdditionalUri>
+  </AdditionalUris>
 </CanvasApp>

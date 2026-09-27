@@ -1,0 +1,530 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  DetailScreen:
+    Properties:
+      Fill: =RGBA(243, 244, 246, 1)
+      OnVisible: |-
+          =Set(IsFinal, SelectedCase.'Case status' = 'Case status (KYC Cases)'.Approved || SelectedCase.'Case status' = 'Case status (KYC Cases)'.Escalated);
+          Reset(ReasonInput)
+      ZIndex: =1
+    Children:
+      - DetailHeader:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(23, 43, 77, 1)
+            Height: =72
+            Width: =Parent.Width
+            ZIndex: =1
+      - BackIcon:
+          Control: Classic/Icon@2.5.0
+          Variant: ArrowLeft
+          Properties:
+            AccessibleLabel: ="Back to queue"
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.ArrowLeft
+            OnSelect: =Back(ScreenTransition.None)
+            Tooltip: ="Back to queue"
+            Width: =40
+            X: =16
+            Y: =16
+            ZIndex: =2
+      - DetailTitle:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =72
+            Size: =20
+            Text: =SelectedCase.'Case reference' & " · " & SelectedCase.'Applicant name'
+            Width: =620
+            X: =68
+            ZIndex: =3
+      - DetailFlagIcon:
+          Control: Classic/Icon@2.5.0
+          Variant: Flag
+          Properties:
+            AccessibleLabel: ="Flagged case"
+            Color: =RGBA(255, 140, 160, 1)
+            Height: =24
+            Icon: =Icon.Flag
+            Tooltip: |-
+                ="Flagged: " & SelectedCase.'Review reason'
+            Visible: =SelectedCase.Flagged
+            Width: =24
+            X: =700
+            Y: =24
+            ZIndex: =4
+      - DetailStatusBadge:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: |-
+                =Switch(
+                    SelectedCase.'Case status',
+                    'Case status (KYC Cases)'.Approved, RGBA(16, 124, 16, 1),
+                    'Case status (KYC Cases)'.Escalated, RGBA(196, 49, 75, 1),
+                    'Case status (KYC Cases)'.'Info requested', RGBA(176, 108, 0, 1),
+                    RGBA(0, 120, 212, 1)
+                )
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            Size: =12
+            Text: =Text(SelectedCase.'Case status')
+            Width: =140
+            X: =Parent.Width - 164
+            Y: =21
+            ZIndex: =5
+      - ApplicantHeading:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(50, 49, 48, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            Size: =15
+            Text: ="Applicant details"
+            Width: =420
+            X: =24
+            Y: =92
+            ZIndex: =6
+      - FieldsGallery:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            AccessibleLabel: ="Submitted applicant details"
+            Height: =Parent.Height - 144
+            Items: |-
+                =Table(
+                    {Field: "Email", Value: SelectedCase.Email},
+                    {Field: "Date of birth", Value: Text(SelectedCase.'Date of birth', "dd mmm yyyy")},
+                    {Field: "Nationality", Value: SelectedCase.Nationality},
+                    {Field: "Country of residence", Value: SelectedCase.'Country of residence'},
+                    {Field: "Address", Value: SelectedCase.Address},
+                    {Field: "Document", Value: SelectedCase.'Document type' & " · " & SelectedCase.'Document number'},
+                    {Field: "Product", Value: SelectedCase.Product},
+                    {Field: "Declared occupation", Value: SelectedCase.'Declared occupation'},
+                    {Field: "Expected monthly volume", Value: SelectedCase.'Expected monthly volume'},
+                    {Field: "Submitted", Value: Text(SelectedCase.'Submitted at', "dd mmm yyyy hh:mm")},
+                    {Field: "Assigned reviewer", Value: SelectedCase.'Assigned reviewer'},
+                    {Field: "Risk level", Value: Text(SelectedCase.'Risk level')},
+                    {Field: "Review reason", Value: SelectedCase.'Review reason'}
+                )
+            TemplateFill: =RGBA(255, 255, 255, 1)
+            TemplateSize: =46
+            Width: =420
+            X: =24
+            Y: =128
+            ZIndex: =7
+          Children:
+            - FieldSeparator:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(225, 228, 232, 1)
+                  Height: =1
+                  Width: =Parent.Width
+                  Y: =45
+                  ZIndex: =2
+            - FieldNameLabel:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(96, 94, 92, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =45
+                  Size: =12
+                  Text: =ThisItem.Field
+                  X: =12
+                  ZIndex: =3
+            - FieldValueLabel:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(50, 49, 48, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =45
+                  Size: =12
+                  Text: =ThisItem.Value
+                  Width: =Parent.Width - 174
+                  X: =162
+                  ZIndex: =4
+      - ChecksHeading:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(50, 49, 48, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            Size: =15
+            Text: ="Verification checks (simulated)"
+            Width: =420
+            X: =468
+            Y: =92
+            ZIndex: =8
+      - ChecksGallery:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            AccessibleLabel: ="Simulated verification check results"
+            Height: =264
+            Items: =Sort(Filter('Verification Checks', Case.'KYC Case' = SelectedCase.'KYC Case'), Order)
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplateFill: =RGBA(255, 255, 255, 1)
+            TemplateSize: =52
+            Width: =420
+            X: =468
+            Y: =128
+            ZIndex: =9
+          Children:
+            - CheckSeparator:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(225, 228, 232, 1)
+                  Height: =1
+                  Width: =Parent.Width
+                  Y: =51
+                  ZIndex: =2
+            - CheckResultBadge:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(255, 255, 255, 1)
+                  Fill: |-
+                      =Switch(
+                          ThisItem.Result,
+                          'Result (Verification Checks)'.Fail, RGBA(196, 49, 75, 1),
+                          'Result (Verification Checks)'.Review, RGBA(176, 108, 0, 1),
+                          RGBA(16, 124, 16, 1)
+                      )
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =24
+                  Size: =11
+                  Text: =Upper(Text(ThisItem.Result))
+                  Width: =70
+                  X: =12
+                  Y: =14
+                  ZIndex: =3
+            - CheckNameLabel:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(50, 49, 48, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =24
+                  Size: =12
+                  Text: =ThisItem.Check
+                  Width: =Parent.Width - 106
+                  X: =94
+                  Y: =4
+                  ZIndex: =4
+            - CheckDetailLabel:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(96, 94, 92, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =22
+                  Size: =11
+                  Text: =ThisItem.Detail
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =Parent.Width - 106
+                  X: =94
+                  Y: =27
+                  ZIndex: =5
+      - HistoryHeading:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(50, 49, 48, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            Size: =15
+            Text: ="Activity history"
+            Width: =420
+            X: =468
+            Y: =408
+            ZIndex: =10
+      - HistoryGallery:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            AccessibleLabel: ="Chronological activity history for this case"
+            Height: =Parent.Height - 460
+            Items: =Sort(Filter('KYC Case Activities', Case.'KYC Case' = SelectedCase.'KYC Case'), 'Occurred at')
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplateFill: =RGBA(255, 255, 255, 1)
+            TemplateSize: =74
+            Width: =420
+            X: =468
+            Y: =444
+            ZIndex: =11
+          Children:
+            - HistorySeparator:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(225, 228, 232, 1)
+                  Height: =1
+                  Width: =Parent.Width
+                  Y: =73
+                  ZIndex: =2
+            - HistoryTimeLabel:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(96, 94, 92, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =22
+                  Size: =11
+                  Text: |-
+                      =Text(ThisItem.'Occurred at', "dd mmm yyyy hh:mm") & " · " & ThisItem.Reviewer
+                  Width: =Parent.Width - 24
+                  X: =12
+                  Y: =4
+                  ZIndex: =3
+            - HistorySummaryLabel:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(50, 49, 48, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =22
+                  Size: =12
+                  Text: =ThisItem.Summary
+                  Width: =Parent.Width - 24
+                  X: =12
+                  Y: =25
+                  ZIndex: =4
+            - HistoryReasonLabel:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(96, 94, 92, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =26
+                  Size: =11
+                  Text: =ThisItem.Reason
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =Parent.Width - 24
+                  X: =12
+                  Y: =46
+                  ZIndex: =5
+      - DecisionHeading:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(50, 49, 48, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            Size: =15
+            Text: ="Decision"
+            Width: =Parent.Width - 936
+            X: =912
+            Y: =92
+            ZIndex: =12
+      - LockedBanner:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(92, 60, 0, 1)
+            Fill: =RGBA(255, 244, 206, 1)
+            Font: =Font.'Segoe UI'
+            Height: =84
+            PaddingLeft: =12
+            PaddingRight: =12
+            Size: =12
+            Text: |-
+                ="This case was " & Lower(Text(SelectedCase.'Case status')) & " on " & Text(SelectedCase.'Decided at', "dd mmm yyyy hh:mm") & " and is locked. Final decisions cannot be changed or added to."
+            Visible: =IsFinal
+            Width: =Parent.Width - 936
+            X: =912
+            Y: =128
+            ZIndex: =13
+      - ReasonPrompt:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(50, 49, 48, 1)
+            Font: =Font.'Segoe UI'
+            Height: =28
+            Size: =12
+            Text: ="Written reason (required, at least 10 characters)"
+            Visible: =!IsFinal
+            Width: =Parent.Width - 936
+            X: =912
+            Y: =128
+            ZIndex: =14
+      - ReasonInput:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Written reason for the decision"
+            DisplayMode: =If(IsFinal, DisplayMode.Disabled, DisplayMode.Edit)
+            Font: =Font.'Segoe UI'
+            Height: =150
+            HintText: ="Explain the decision. This is recorded permanently in the case history."
+            MaxLength: =2000
+            Mode: =TextMode.MultiLine
+            Size: =12
+            Visible: =!IsFinal
+            Width: =Parent.Width - 936
+            X: =912
+            Y: =160
+            ZIndex: =15
+      - ReasonHint:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(196, 49, 75, 1)
+            Font: =Font.'Segoe UI'
+            Height: =24
+            Size: =11
+            Text: =If(Len(Trim(ReasonInput.Text)) < 10, "Enter at least 10 characters before deciding (" & Len(Trim(ReasonInput.Text)) & "/10).", "")
+            Visible: =!IsFinal
+            Width: =Parent.Width - 936
+            X: =912
+            Y: =312
+            ZIndex: =16
+      - ApproveButton:
+          Control: Classic/Button@2.2.0
+          Properties:
+            DisplayMode: =If(IsFinal || Len(Trim(ReasonInput.Text)) < 10, DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =RGBA(16, 124, 16, 1)
+            Font: =Font.'Segoe UI'
+            Height: =44
+            HoverFill: =RGBA(12, 100, 12, 1)
+            OnSelect: |-
+                =IfError(
+                    Set(
+                        SelectedCase,
+                        Patch('KYC Cases', SelectedCase, {'Case status': 'Case status (KYC Cases)'.Approved, 'Decided at': Now()})
+                    );
+                    Patch(
+                        'KYC Case Activities',
+                        Defaults('KYC Case Activities'),
+                        {
+                            Summary: "Approved by " & ReviewerDropdown.Selected.Value,
+                            Case: SelectedCase,
+                            Action: 'Action (KYC Case Activities)'.Approved,
+                            Reason: Trim(ReasonInput.Text),
+                            Reviewer: ReviewerDropdown.Selected.Value,
+                            'Occurred at': Now()
+                        }
+                    );
+                    Set(IsFinal, true);
+                    Reset(ReasonInput);
+                    Notify("Case " & SelectedCase.'Case reference' & " approved and locked.", NotificationType.Success, 4000),
+                    Notify("Could not record the decision: " & FirstError.Message, NotificationType.Error, 6000)
+                )
+            PressedFill: =RGBA(8, 80, 8, 1)
+            Size: =14
+            Text: ="Approve"
+            Visible: =!IsFinal
+            Width: =Parent.Width - 936
+            X: =912
+            Y: =348
+            ZIndex: =17
+      - RequestInfoButton:
+          Control: Classic/Button@2.2.0
+          Properties:
+            DisplayMode: =If(IsFinal || Len(Trim(ReasonInput.Text)) < 10, DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =RGBA(176, 108, 0, 1)
+            Font: =Font.'Segoe UI'
+            Height: =44
+            HoverFill: =RGBA(150, 92, 0, 1)
+            OnSelect: |-
+                =IfError(
+                    Set(
+                        SelectedCase,
+                        Patch('KYC Cases', SelectedCase, {'Case status': 'Case status (KYC Cases)'.'Info requested'})
+                    );
+                    Patch(
+                        'KYC Case Activities',
+                        Defaults('KYC Case Activities'),
+                        {
+                            Summary: "Info requested by " & ReviewerDropdown.Selected.Value,
+                            Case: SelectedCase,
+                            Action: 'Action (KYC Case Activities)'.'Info requested',
+                            Reason: Trim(ReasonInput.Text),
+                            Reviewer: ReviewerDropdown.Selected.Value,
+                            'Occurred at': Now()
+                        }
+                    );
+                    Reset(ReasonInput);
+                    Notify("Information requested for case " & SelectedCase.'Case reference' & ". The case stays open.", NotificationType.Success, 4000),
+                    Notify("Could not record the decision: " & FirstError.Message, NotificationType.Error, 6000)
+                )
+            PressedFill: =RGBA(120, 74, 0, 1)
+            Size: =14
+            Text: ="Request more information"
+            Visible: =!IsFinal
+            Width: =Parent.Width - 936
+            X: =912
+            Y: =404
+            ZIndex: =18
+      - EscalateButton:
+          Control: Classic/Button@2.2.0
+          Properties:
+            DisplayMode: =If(IsFinal || Len(Trim(ReasonInput.Text)) < 10, DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =RGBA(196, 49, 75, 1)
+            Font: =Font.'Segoe UI'
+            Height: =44
+            HoverFill: =RGBA(164, 38, 60, 1)
+            OnSelect: |-
+                =IfError(
+                    Set(
+                        SelectedCase,
+                        Patch('KYC Cases', SelectedCase, {'Case status': 'Case status (KYC Cases)'.Escalated, 'Decided at': Now()})
+                    );
+                    Patch(
+                        'KYC Case Activities',
+                        Defaults('KYC Case Activities'),
+                        {
+                            Summary: "Escalated by " & ReviewerDropdown.Selected.Value,
+                            Case: SelectedCase,
+                            Action: 'Action (KYC Case Activities)'.Escalated,
+                            Reason: Trim(ReasonInput.Text),
+                            Reviewer: ReviewerDropdown.Selected.Value,
+                            'Occurred at': Now()
+                        }
+                    );
+                    Set(IsFinal, true);
+                    Reset(ReasonInput);
+                    Notify("Case " & SelectedCase.'Case reference' & " escalated and locked.", NotificationType.Warning, 4000),
+                    Notify("Could not record the decision: " & FirstError.Message, NotificationType.Error, 6000)
+                )
+            PressedFill: =RGBA(130, 30, 48, 1)
+            Size: =14
+            Text: ="Escalate"
+            Visible: =!IsFinal
+            Width: =Parent.Width - 936
+            X: =912
+            Y: =460
+            ZIndex: =19
+      - DecisionHelp:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(96, 94, 92, 1)
+            Font: =Font.'Segoe UI'
+            Height: =88
+            Size: =11
+            Text: |-
+                ="Approve and Escalate are final: the case is locked and no further decisions can be recorded. Request more information keeps the case open. Every decision is stored with its reason in the activity history."
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.Width - 936
+            X: =912
+            Y: =If(IsFinal, 224, 516)
+            ZIndex: =20
+      - ActingAsDetailLabel:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(96, 94, 92, 1)
+            Font: =Font.'Segoe UI'
+            Height: =28
+            Size: =11
+            Text: ="Recording decisions as " & ReviewerDropdown.Selected.Value & " (change on the queue screen)"
+            Width: =Parent.Width - 936
+            X: =912
+            Y: =If(IsFinal, 312, 604)
+            ZIndex: =21
