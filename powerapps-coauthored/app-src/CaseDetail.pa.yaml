@@ -1,0 +1,474 @@
+Screens:
+  CaseDetail:
+    Properties:
+      Fill: =RGBA(245, 246, 250, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+    Children:
+      - conDetRoot:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            Width: =Parent.Width
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =14
+            PaddingTop: =20
+            PaddingBottom: =20
+            PaddingLeft: =28
+            PaddingRight: =28
+            Fill: =RGBA(245, 246, 250, 1)
+          Children:
+            - conDetHeader:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  Height: =44
+                  FillPortions: =0
+                  AlignInContainer: =AlignInContainer.Stretch
+                Children:
+                  - btnDetBack:
+                      Control: ModernButton
+                      Properties:
+                        Text: ="Back to queue"
+                        Appearance: =ButtonAppearance.Subtle
+                        Layout: =ButtonLayout.IconBefore
+                        Icon: ="Back"
+                        Height: =36
+                        Width: =150
+                        FillPortions: =0
+                        OnSelect: =Navigate(Screen1)
+                  - txtDetTitle:
+                      Control: ModernText
+                      Properties:
+                        Text: '=varSelectedCase.kyc_applicantname & " — " & varSelectedCase.kyc_name'
+                        Size: =20
+                        FontWeight: =FontWeight.Semibold
+                        Height: =40
+                        FillPortions: =1
+            - conDetBody:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =16
+                  FillPortions: =1
+                  AlignInContainer: =AlignInContainer.Stretch
+                Children:
+                  - conDetFieldsCard:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =4
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingTop: =16
+                        PaddingBottom: =16
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        Fill: =RGBA(255, 255, 255, 1)
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        DropShadow: =DropShadow.Semilight
+                        Width: =380
+                        FillPortions: =0
+                        LayoutMinWidth: =380
+                      Children:
+                        - txtDetFieldsHeader:
+                            Control: ModernText
+                            Properties:
+                              Text: ="Applicant"
+                              Size: =15
+                              FontWeight: =FontWeight.Semibold
+                              Height: =28
+                              Width: =320
+                              FillPortions: =0
+                        - bdgDetStatus:
+                            Control: Badge
+                            Properties:
+                              Content: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Pending, "Pending", If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.'Info requested', "Info requested", If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved, "Approved", "Escalated")))
+                              ThemeColor: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Pending, 'BadgeCanvas.ThemeColor'.Warning, If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.'Info requested', 'BadgeCanvas.ThemeColor'.Severe, If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved, 'BadgeCanvas.ThemeColor'.Success, 'BadgeCanvas.ThemeColor'.Important)))
+                              Appearance: ='BadgeCanvas.Appearance'.Filled
+                              Shape: ='BadgeCanvas.Shape'.Rounded
+                              Height: =30
+                              Width: =140
+                              FillPortions: =0
+                        - txtDetEmail:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Email:  " & varSelectedCase.kyc_email'
+                              Size: =13
+                              Height: =24
+                              Width: =340
+                              FillPortions: =0
+                        - txtDetDob:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Date of birth:  " & Text(varSelectedCase.kyc_dateofbirth, DateTimeFormat.ShortDate)'
+                              Size: =13
+                              Height: =24
+                              Width: =340
+                              FillPortions: =0
+                        - txtDetNat:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Nationality:  " & varSelectedCase.kyc_nationality'
+                              Size: =13
+                              Height: =24
+                              Width: =340
+                              FillPortions: =0
+                        - txtDetCountry:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Country of residence:  " & varSelectedCase.kyc_countryofresidence'
+                              Size: =13
+                              Height: =24
+                              Width: =340
+                              FillPortions: =0
+                        - txtDetAddress:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Address:  " & varSelectedCase.kyc_address'
+                              Size: =13
+                              Height: =24
+                              Width: =340
+                              FillPortions: =0
+                        - txtDetOccupation:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Declared occupation:  " & varSelectedCase.kyc_declaredoccupation'
+                              Size: =13
+                              Height: =24
+                              Width: =340
+                              FillPortions: =0
+                        - txtDetProduct:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Product:  " & varSelectedCase.kyc_product'
+                              Size: =13
+                              Height: =24
+                              Width: =340
+                              FillPortions: =0
+                        - txtDetDoc:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Document:  " & varSelectedCase.kyc_documenttype & "  ·  " & varSelectedCase.kyc_documentnumber'
+                              Size: =13
+                              Height: =24
+                              Width: =340
+                              FillPortions: =0
+                        - txtDetVolume:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Expected monthly volume:  " & varSelectedCase.kyc_expectedmonthlyvolume'
+                              Size: =13
+                              Height: =24
+                              Width: =340
+                              FillPortions: =0
+                        - txtDetSubmitted:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Submitted:  " & Text(varSelectedCase.kyc_submittedat, DateTimeFormat.ShortDateTime)'
+                              Size: =13
+                              Height: =24
+                              Width: =340
+                              FillPortions: =0
+                        - conDetRiskRow:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              Height: =34
+                              FillPortions: =0
+                              AlignInContainer: =AlignInContainer.Stretch
+                            Children:
+                              - txtDetRiskLabel:
+                                  Control: ModernText
+                                  Properties:
+                                    Text: ="Risk level:"
+                                    Size: =13
+                                    Height: =26
+                                    Width: =90
+                                    FillPortions: =0
+                              - bdgDetRisk:
+                                  Control: Badge
+                                  Properties:
+                                    Content: =If(varSelectedCase.kyc_risklevel = 'Risk level (KYC Cases)'.High, "High", If(varSelectedCase.kyc_risklevel = 'Risk level (KYC Cases)'.Medium, "Medium", "Low"))
+                                    ThemeColor: =If(varSelectedCase.kyc_risklevel = 'Risk level (KYC Cases)'.High, 'BadgeCanvas.ThemeColor'.Danger, If(varSelectedCase.kyc_risklevel = 'Risk level (KYC Cases)'.Medium, 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Success))
+                                    Appearance: ='BadgeCanvas.Appearance'.Tint
+                                    Shape: ='BadgeCanvas.Shape'.Rounded
+                                    Height: =26
+                                    Width: =90
+                                    FillPortions: =0
+                              - txtDetFlagged:
+                                  Control: ModernText
+                                  Properties:
+                                    Text: ="⚑ Flagged for review"
+                                    Color: =RGBA(180, 40, 40, 1)
+                                    Size: =13
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =26
+                                    Width: =150
+                                    FillPortions: =0
+                                    Visible: =varSelectedCase.kyc_flagged = 'Flagged (KYC Cases)'.Yes
+                  - conDetRight:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        FillPortions: =1
+                      Children:
+                        - conDetChecksCard:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              PaddingTop: =16
+                              PaddingBottom: =12
+                              PaddingLeft: =16
+                              PaddingRight: =16
+                              Fill: =RGBA(255, 255, 255, 1)
+                              RadiusTopLeft: =8
+                              RadiusTopRight: =8
+                              RadiusBottomLeft: =8
+                              RadiusBottomRight: =8
+                              DropShadow: =DropShadow.Semilight
+                              FillPortions: =1
+                              LayoutMinHeight: =160
+                            Children:
+                              - txtDetChecksHeader:
+                                  Control: ModernText
+                                  Properties:
+                                    Text: ="Verification checks"
+                                    Size: =15
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =28
+                                    FillPortions: =0
+                                    AlignInContainer: =AlignInContainer.Stretch
+                              - galDetChecks:
+                                  Control: Gallery
+                                  Variant: Vertical
+                                  Properties:
+                                    Items: =SortByColumns(Filter('Verification Checks', kyc_Case.kyc_caseid = varSelectedCase.kyc_caseid), "kyc_order", SortOrder.Ascending)
+                                    TemplateSize: =56
+                                    TemplatePadding: =4
+                                    FillPortions: =1
+                                    LayoutMinHeight: =80
+                                    AccessibleLabel: ="Verification checks"
+                                    DelayItemLoading: =false
+                                  Children:
+                                    - txtDetCheckName:
+                                        Control: ModernText
+                                        Properties:
+                                          Text: =ThisItem.kyc_name
+                                          Size: =13
+                                          FontWeight: =FontWeight.Semibold
+                                          X: =12
+                                          Y: =4
+                                          Width: =340
+                                          Height: =24
+                                    - txtDetCheckDetail:
+                                        Control: ModernText
+                                        Properties:
+                                          Text: =ThisItem.kyc_detail
+                                          Size: =12
+                                          Color: =RGBA(90, 95, 105, 1)
+                                          X: =12
+                                          Y: =28
+                                          Width: =340
+                                          Height: =22
+                                    - bdgDetCheckResult:
+                                        Control: Badge
+                                        Properties:
+                                          Content: =If(ThisItem.kyc_result = 'Result (Verification Checks)'.Pass, "Pass", If(ThisItem.kyc_result = 'Result (Verification Checks)'.Review, "Review", "Fail"))
+                                          ThemeColor: =If(ThisItem.kyc_result = 'Result (Verification Checks)'.Pass, 'BadgeCanvas.ThemeColor'.Success, If(ThisItem.kyc_result = 'Result (Verification Checks)'.Review, 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Danger))
+                                          Appearance: ='BadgeCanvas.Appearance'.Tint
+                                          Shape: ='BadgeCanvas.Shape'.Rounded
+                                          X: =380
+                                          Y: =12
+                                          Width: =80
+                                          Height: =26
+                        - conDetActivityCard:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              PaddingTop: =16
+                              PaddingBottom: =12
+                              PaddingLeft: =16
+                              PaddingRight: =16
+                              Fill: =RGBA(255, 255, 255, 1)
+                              RadiusTopLeft: =8
+                              RadiusTopRight: =8
+                              RadiusBottomLeft: =8
+                              RadiusBottomRight: =8
+                              DropShadow: =DropShadow.Semilight
+                              FillPortions: =1
+                              LayoutMinHeight: =140
+                            Children:
+                              - txtDetActivityHeader:
+                                  Control: ModernText
+                                  Properties:
+                                    Text: ="Activity history"
+                                    Size: =15
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =28
+                                    FillPortions: =0
+                                    AlignInContainer: =AlignInContainer.Stretch
+                              - galDetActivity:
+                                  Control: Gallery
+                                  Variant: Vertical
+                                  Properties:
+                                    Items: =SortByColumns(Filter('KYC Case Activities', kyc_Case.kyc_caseid = varSelectedCase.kyc_caseid), "kyc_occurredat", SortOrder.Descending)
+                                    TemplateSize: =64
+                                    TemplatePadding: =4
+                                    FillPortions: =1
+                                    LayoutMinHeight: =70
+                                    AccessibleLabel: ="Case activity history"
+                                    DelayItemLoading: =false
+                                  Children:
+                                    - txtDetActivityAction:
+                                        Control: ModernText
+                                        Properties:
+                                          Text: '="" & ThisItem.kyc_action'
+                                          Size: =12
+                                          FontWeight: =FontWeight.Semibold
+                                          X: =12
+                                          Y: =4
+                                          Width: =140
+                                          Height: =22
+                                    - txtDetActivitySummary:
+                                        Control: ModernText
+                                        Properties:
+                                          Text: =ThisItem.kyc_name & If(IsBlank(ThisItem.kyc_reason), "", " — " & ThisItem.kyc_reason)
+                                          Size: =12
+                                          X: =160
+                                          Y: =4
+                                          Width: =400
+                                          Height: =22
+                                    - txtDetActivityMeta:
+                                        Control: ModernText
+                                        Properties:
+                                          Text: '=Text(ThisItem.kyc_occurredat, DateTimeFormat.ShortDateTime) & "  ·  " & ThisItem.kyc_reviewer'
+                                          Size: =11
+                                          Color: =RGBA(90, 95, 105, 1)
+                                          X: =12
+                                          Y: =30
+                                          Width: =400
+                                          Height: =20
+            - conDetActions:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  PaddingTop: =12
+                  PaddingBottom: =12
+                  PaddingLeft: =16
+                  PaddingRight: =16
+                  Fill: =RGBA(255, 255, 255, 1)
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  DropShadow: =DropShadow.Semilight
+                  Height: =64
+                  FillPortions: =0
+                  AlignInContainer: =AlignInContainer.Stretch
+                Children:
+                  - txtDetReason:
+                      Control: ModernTextInput
+                      Properties:
+                        Placeholder: ="Reason for decision (required)"
+                        AccessibleLabel: ="Reason for decision"
+                        Required: =true
+                        Height: =40
+                        FillPortions: =1
+                        LayoutMinWidth: =200
+                        DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.View, DisplayMode.Edit)
+                  - btnDetApprove:
+                      Control: ModernButton
+                      Properties:
+                        Text: ="Approve"
+                        Appearance: =ButtonAppearance.Primary
+                        BasePaletteColor: =RGBA(16, 124, 65, 1)
+                        Height: =40
+                        Width: =120
+                        FillPortions: =0
+                        DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.Disabled, If(Len(Trim(txtDetReason.Text)) = 0, DisplayMode.Disabled, DisplayMode.Edit))
+                        OnSelect: |-
+                          =Set(varSelectedCase, Patch('KYC Cases', varSelectedCase, {
+                            kyc_status: 'Status (KYC Cases)'.Approved,
+                            kyc_decidedat: Now(),
+                            kyc_reviewreason: txtDetReason.Text
+                          }));
+                          Patch('KYC Case Activities', Defaults('KYC Case Activities'), {
+                            kyc_name: "Case approved",
+                            kyc_action: 'Action (KYC Case Activities)'.Approved,
+                            kyc_reason: txtDetReason.Text,
+                            kyc_reviewer: User().FullName,
+                            kyc_occurredat: Now(),
+                            kyc_Case: varSelectedCase
+                          });
+                          Notify("Case approved", NotificationType.Success);
+                          Reset(txtDetReason)
+                  - btnDetRequestInfo:
+                      Control: ModernButton
+                      Properties:
+                        Text: ="Request info"
+                        Appearance: =ButtonAppearance.Secondary
+                        Height: =40
+                        Width: =130
+                        FillPortions: =0
+                        DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.Disabled, If(Len(Trim(txtDetReason.Text)) = 0, DisplayMode.Disabled, DisplayMode.Edit))
+                        OnSelect: |-
+                          =Set(varSelectedCase, Patch('KYC Cases', varSelectedCase, {
+                            kyc_status: 'Status (KYC Cases)'.'Info requested',
+                            kyc_reviewreason: txtDetReason.Text
+                          }));
+                          Patch('KYC Case Activities', Defaults('KYC Case Activities'), {
+                            kyc_name: "Info requested",
+                            kyc_action: 'Action (KYC Case Activities)'.'Info requested',
+                            kyc_reason: txtDetReason.Text,
+                            kyc_reviewer: User().FullName,
+                            kyc_occurredat: Now(),
+                            kyc_Case: varSelectedCase
+                          });
+                          Notify("Info requested from applicant", NotificationType.Information);
+                          Reset(txtDetReason)
+                  - btnDetEscalate:
+                      Control: ModernButton
+                      Properties:
+                        Text: ="Escalate"
+                        Appearance: =ButtonAppearance.Primary
+                        BasePaletteColor: =RGBA(180, 40, 40, 1)
+                        Height: =40
+                        Width: =120
+                        FillPortions: =0
+                        DisplayMode: =If(varSelectedCase.kyc_status = 'Status (KYC Cases)'.Approved || varSelectedCase.kyc_status = 'Status (KYC Cases)'.Escalated, DisplayMode.Disabled, If(Len(Trim(txtDetReason.Text)) = 0, DisplayMode.Disabled, DisplayMode.Edit))
+                        OnSelect: |-
+                          =Set(varSelectedCase, Patch('KYC Cases', varSelectedCase, {
+                            kyc_status: 'Status (KYC Cases)'.Escalated,
+                            kyc_decidedat: Now(),
+                            kyc_reviewreason: txtDetReason.Text
+                          }));
+                          Patch('KYC Case Activities', Defaults('KYC Case Activities'), {
+                            kyc_name: "Case escalated",
+                            kyc_action: 'Action (KYC Case Activities)'.Escalated,
+                            kyc_reason: txtDetReason.Text,
+                            kyc_reviewer: User().FullName,
+                            kyc_occurredat: Now(),
+                            kyc_Case: varSelectedCase
+                          });
+                          Notify("Case escalated", NotificationType.Warning);
+                          Reset(txtDetReason)

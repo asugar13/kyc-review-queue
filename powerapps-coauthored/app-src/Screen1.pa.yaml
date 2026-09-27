@@ -1,0 +1,174 @@
+Screens:
+  Screen1:
+    Properties:
+      Fill: =RGBA(245, 246, 250, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+    Children:
+      - conQueueRoot:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            Width: =Parent.Width
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =14
+            PaddingTop: =20
+            PaddingBottom: =20
+            PaddingLeft: =28
+            PaddingRight: =28
+            Fill: =RGBA(245, 246, 250, 1)
+          Children:
+            - txtQueueTitle:
+                Control: ModernText
+                Properties:
+                  Text: ="KYC Review Queue"
+                  Size: =22
+                  FontWeight: =FontWeight.Semibold
+                  Height: =40
+                  Width: =400
+                  FillPortions: =0
+            - conQueueFilters:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  Height: =48
+                  FillPortions: =0
+                  AlignInContainer: =AlignInContainer.Stretch
+                Children:
+                  - txtQueueSearch:
+                      Control: ModernTextInput
+                      Properties:
+                        Type: =TextInputType.Search
+                        Placeholder: ="Search applicant or case reference"
+                        AccessibleLabel: ="Search applicant or case reference"
+                        Height: =40
+                        FillPortions: =1
+                        LayoutMinWidth: =200
+                  - drpQueueStatus:
+                      Control: ModernDropdown
+                      Properties:
+                        Items: '=[{Value:"All"},{Value:"Pending"},{Value:"Info requested"},{Value:"Approved"},{Value:"Escalated"}]'
+                        Default: '={Value:"All"}'
+                        ItemDisplayText: =ThisItem.Value
+                        AccessibleLabel: ="Filter by status"
+                        Height: =40
+                        Width: =220
+                        FillPortions: =0
+                        LayoutMinWidth: =220
+            - galQueue:
+                Control: Gallery
+                Variant: Vertical
+                Properties:
+                  Items: |-
+                    =Filter(
+                      'KYC Cases',
+                      drpQueueStatus.Selected.Value = "All" ||
+                        (drpQueueStatus.Selected.Value = "Pending" && kyc_status = 'Status (KYC Cases)'.Pending) ||
+                        (drpQueueStatus.Selected.Value = "Info requested" && kyc_status = 'Status (KYC Cases)'.'Info requested') ||
+                        (drpQueueStatus.Selected.Value = "Approved" && kyc_status = 'Status (KYC Cases)'.Approved) ||
+                        (drpQueueStatus.Selected.Value = "Escalated" && kyc_status = 'Status (KYC Cases)'.Escalated),
+                      IsBlank(txtQueueSearch.Text) ||
+                        txtQueueSearch.Text in kyc_applicantname ||
+                        txtQueueSearch.Text in kyc_name
+                    )
+                  TemplateSize: =76
+                  TemplatePadding: =6
+                  FillPortions: =1
+                  LayoutMinHeight: =200
+                  AccessibleLabel: ="KYC case queue"
+                  DelayItemLoading: =false
+                Children:
+                  - conQueueRow:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        Width: =Parent.Width - 12
+                        Height: =Parent.TemplateHeight - 12
+                        X: =6
+                        Y: =6
+                        Fill: =RGBA(255, 255, 255, 1)
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        DropShadow: =DropShadow.Semilight
+                      Children:
+                        - txtQueueApplicant:
+                            Control: ModernText
+                            Properties:
+                              Text: =ThisItem.kyc_applicantname
+                              FontWeight: =FontWeight.Semibold
+                              Size: =15
+                              X: =16
+                              Y: =8
+                              Width: =320
+                              Height: =28
+                        - txtQueueRef:
+                            Control: ModernText
+                            Properties:
+                              Text: '=ThisItem.kyc_name & "  ·  " & ThisItem.kyc_product'
+                              Size: =12
+                              Color: =RGBA(90, 95, 105, 1)
+                              X: =16
+                              Y: =36
+                              Width: =320
+                              Height: =24
+                        - txtQueueSubmitted:
+                            Control: ModernText
+                            Properties:
+                              Text: '="Submitted " & Text(ThisItem.kyc_submittedat, DateTimeFormat.ShortDate)'
+                              Size: =12
+                              Color: =RGBA(90, 95, 105, 1)
+                              X: =Parent.Width - 480
+                              Y: =8
+                              Width: =160
+                              Height: =24
+                        - bdgQueueRisk:
+                            Control: Badge
+                            Properties:
+                              Content: =If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.High, "High risk", If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.Medium, "Medium risk", "Low risk"))
+                              ThemeColor: =If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.High, 'BadgeCanvas.ThemeColor'.Danger, If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.Medium, 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Success))
+                              Appearance: ='BadgeCanvas.Appearance'.Tint
+                              Shape: ='BadgeCanvas.Shape'.Rounded
+                              X: =Parent.Width - 480
+                              Y: =36
+                              Width: =100
+                              Height: =26
+                        - bdgQueueStatus:
+                            Control: Badge
+                            Properties:
+                              Content: =If(ThisItem.kyc_status = 'Status (KYC Cases)'.Pending, "Pending", If(ThisItem.kyc_status = 'Status (KYC Cases)'.'Info requested', "Info requested", If(ThisItem.kyc_status = 'Status (KYC Cases)'.Approved, "Approved", "Escalated")))
+                              ThemeColor: =If(ThisItem.kyc_status = 'Status (KYC Cases)'.Pending, 'BadgeCanvas.ThemeColor'.Warning, If(ThisItem.kyc_status = 'Status (KYC Cases)'.'Info requested', 'BadgeCanvas.ThemeColor'.Severe, If(ThisItem.kyc_status = 'Status (KYC Cases)'.Approved, 'BadgeCanvas.ThemeColor'.Success, 'BadgeCanvas.ThemeColor'.Important)))
+                              Appearance: ='BadgeCanvas.Appearance'.Filled
+                              Shape: ='BadgeCanvas.Shape'.Rounded
+                              X: =Parent.Width - 330
+                              Y: =20
+                              Width: =130
+                              Height: =30
+                        - txtQueueFlagged:
+                            Control: ModernText
+                            Properties:
+                              Text: ="⚑ Flagged"
+                              Color: =RGBA(180, 40, 40, 1)
+                              Size: =12
+                              FontWeight: =FontWeight.Semibold
+                              X: =Parent.Width - 140
+                              Y: =8
+                              Width: =100
+                              Height: =24
+                              Visible: =ThisItem.kyc_flagged = 'Flagged (KYC Cases)'.Yes
+                        - rctQueueOpen:
+                            Control: Rectangle
+                            Properties:
+                              Fill: =RGBA(0, 0, 0, 0)
+                              BorderThickness: =0
+                              X: =0
+                              Y: =0
+                              Width: =Parent.Width
+                              Height: =Parent.Height
+                              OnSelect: |-
+                                =Set(varSelectedCase, ThisItem);
+                                Navigate(CaseDetail)
