@@ -8,8 +8,7 @@
   },
   "workspaces": [
     "server",
-    "client",
-    "powerapps"
+    "client"
   ],
   "scripts": {
     "dev": "concurrently -n api,web -c blue,magenta \"npm run dev -w server\" \"npm run dev -w client\"",
@@ -17,7 +16,7 @@
     "start": "npm run start -w server",
     "seed": "npm run seed -w server",
     "test": "npm test -w server",
-    "typecheck": "npm run typecheck -w server && npm run typecheck -w client && npm run typecheck -w powerapps",
+    "typecheck": "npm run typecheck -w server && npm run typecheck -w client",
     "lint": "eslint ."
   },
   "devDependencies": {
