@@ -141,6 +141,10 @@ server/            Express API
   src/index.ts     entrypoint
   test/            node:test suite
 powerapps-coauthored/  Power Apps canvas app source (.pa.yaml) + MCP report
+dataverse/
+  scripts/schema.ts      Dataverse tables, columns, choices, relationships
+  scripts/provision.ts   creates publisher, solution, tables (Web API, idempotent)
+  scripts/seed.ts        seeds the synthetic cases (reuses server/src/seed.ts)
 ```
 
 ## Power Apps version (part B)
@@ -175,6 +179,25 @@ Dataverse schema (publisher prefix `kyc`):
 | `kyc_case` (KYC Cases) | one applicant case | Case reference, Applicant name, Submitted at, Case status (Pending / Info requested / Approved / Escalated), Assigned reviewer, Review reason, Risk level, Flagged, Decided at |
 | `kyc_verificationcheck` | simulated screening results | Check, Result (Pass / Warn / Fail), Detail, Order, Case (lookup) |
 | `kyc_caseactivity` | chronological history | Summary, Action, Reason, Reviewer, Occurred at, Case (lookup) |
+
+### Rebuilding the Dataverse side
+
+The tables and seed data are created by scripts under `dataverse/` (Node 22+, no
+dependencies beyond the repo), authenticated as a service principal that is an
+application user in the environment:
+
+```bash
+export PP_ENV_URL=https://org64ad231d.crm11.dynamics.com
+export PP_TENANT_ID=c6a3b549-494b-4711-b35d-2671b4f06cde
+export PP_CLIENT_ID=... PP_CLIENT_SECRET=...
+
+npm run provision -w dataverse   # idempotent: publisher, solution, tables, columns, relationships
+npm run seed -w dataverse        # idempotent; add `-- --reset` to wipe and reseed the 8 cases
+```
+
+`scripts/schema.ts` is the single definition of the schema (it mirrors
+`server/src/db.ts`); `seed.ts` reuses `SEED_CASES` from `server/src/seed.ts`, so
+both stacks hold the same synthetic data.
 
 App behaviour mirrors part A: the queue screen filters by status and searches by
 applicant name or case reference; the detail screen shows the applicant fields, the
