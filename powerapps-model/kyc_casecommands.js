@@ -49,7 +49,25 @@ var KycCase = (function () {
     });
   }
 
+  var FINAL = ["Approved", "Escalated"];
+  var DECISION_FIELDS = ["kyc_status", "kyc_reviewreason", "kyc_risklevel", "kyc_flagged", "kyc_assignedreviewer"];
+
+  // Form logic that a business rule would normally carry: a decision needs a written reason,
+  // and Approved / Escalated are final states.
+  function onLoad(ctx) {
+    var formCtx = ctx.getFormContext ? ctx.getFormContext() : ctx;
+    var status = currentStatusLabel(formCtx);
+    var isFinal = FINAL.indexOf(status) !== -1;
+    var reason = formCtx.getAttribute("kyc_reviewreason");
+    if (reason) reason.setRequiredLevel(status && status !== "Pending" ? "required" : "none");
+    DECISION_FIELDS.forEach(function (name) {
+      var control = formCtx.getControl(name);
+      if (control && control.setDisabled) control.setDisabled(isFinal);
+    });
+  }
+
   return {
+    onLoad: onLoad,
     approve: function (formCtx) { decide(formCtx, "Approved", "Approved", "Case approved"); },
     requestInfo: function (formCtx) { decide(formCtx, "Info requested", "Info requested", "Information requested from applicant"); },
     escalate: function (formCtx) { decide(formCtx, "Escalated", "Escalated", "Case escalated to compliance"); }

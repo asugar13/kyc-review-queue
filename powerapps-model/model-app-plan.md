@@ -10,7 +10,6 @@ run and silently disagrees with what actually builds.
 
 | Setting | Value |
 |---|---|
-| Environment | https://org64ad231d.crm11.dynamics.com |
 | Solution | KYCReviewModelDriven |
 | Publisher prefix | kyc |
 
@@ -55,7 +54,7 @@ Chronological history entry for a case (submission, assignment, decisions, notes
 | Column | Type | Notes |
 |---|---|---|
 | Summary | Text | primary name |
-| Action | Choice | choices: Submitted, Assigned, Info requested, Info received, Approved, Escalated, Note |
+| Action | Choice | choices: Submitted, Assigned, Info requested, Info received, Approved, Escalated, Note, Flagged |
 | Reviewer | Text | — |
 | Occurred at | DateTime | — |
 | Reason | Memo | — |
@@ -94,6 +93,11 @@ Result of one synthetic identity/AML check performed on a case.
 | KYC Case review | kyc_case | Main | explicit (1 tab) | kyc_verificationcheck, kyc_caseactivity |
 | KYC Case Activity | kyc_caseactivity | Main | auto | — |
 | Verification Check | kyc_verificationcheck | Main | auto | — |
+
+Form scripts:
+
+- **KYC Case review** — `onload` → `KycCase.onLoad` (`kyc_casecommands.js`)
+- **KYC Case review** — `onchange` on `kyc_status` → `KycCase.onLoad` (`kyc_casecommands.js`)
 
 ### Views
 
