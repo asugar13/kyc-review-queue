@@ -81,6 +81,7 @@ DetailScreen As screen:
         ZIndex: =6
 
     FieldsGallery As gallery.galleryVertical:
+        Layout: =Layout.Vertical
         AccessibleLabel: ="Submitted applicant details"
         Height: =Parent.Height - 144
         Items: |-
@@ -145,6 +146,7 @@ DetailScreen As screen:
         ZIndex: =8
 
     ChecksGallery As gallery.galleryVertical:
+        Layout: =Layout.Vertical
         AccessibleLabel: ="Simulated verification check results"
         Height: =264
         Items: =Sort(Filter('Verification Checks', Case.'KYC Case' = SelectedCase.'KYC Case'), Order)
@@ -220,6 +222,7 @@ DetailScreen As screen:
         ZIndex: =10
 
     HistoryGallery As gallery.galleryVertical:
+        Layout: =Layout.Vertical
         AccessibleLabel: ="Chronological activity history for this case"
         Height: =Parent.Height - 460
         Items: =Sort(Filter('KYC Case Activities', Case.'KYC Case' = SelectedCase.'KYC Case'), 'Occurred at')

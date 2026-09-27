@@ -164,6 +164,7 @@ QueueScreen As screen:
         ZIndex: =15
 
     CaseGallery As gallery.galleryVertical:
+        Layout: =Layout.Vertical
         AccessibleLabel: ="KYC cases matching the current filter"
         DelayItemLoading: =true
         Height: =Parent.Height - 184

@@ -192,6 +192,7 @@ Screens:
           Control: Gallery@2.15.0
           Variant: Vertical
           Properties:
+            Layout: =Layout.Vertical
             AccessibleLabel: ="KYC cases matching the current filter"
             DelayItemLoading: =true
             Height: =Parent.Height - 184
