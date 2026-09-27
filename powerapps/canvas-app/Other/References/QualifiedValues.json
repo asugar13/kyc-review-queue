@@ -1,0 +1,25 @@
+{
+  "QualifiedValues": [
+    {
+      "Kind": "default.cds_kyc_case_forms",
+      "Namespace": "KYC Cases (Forms)",
+      "Values": {
+        "Information": "b93b60e3-695b-4333-a360-d41f6b7e22f6"
+      }
+    },
+    {
+      "Kind": "default.cds_kyc_caseactivity_forms",
+      "Namespace": "KYC Case Activities (Forms)",
+      "Values": {
+        "Information": "6c84c36b-7809-4b34-807c-caf2b022874b"
+      }
+    },
+    {
+      "Kind": "default.cds_kyc_verificationcheck_forms",
+      "Namespace": "Verification Checks (Forms)",
+      "Values": {
+        "Information": "64983783-cecd-4afe-a7ce-9cabd6019374"
+      }
+    }
+  ]
+}

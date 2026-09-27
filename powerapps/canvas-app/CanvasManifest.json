@@ -115,7 +115,7 @@
     "EnableInstrumentation": false,
     "FileID": "2e7674f9-8664-47cb-a825-e6901c0801a2",
     "Id": "60e9e533-5f82-46d4-a321-67f8855c02a2",
-    "ManualOfflineProfileId": null,
+    "ManualOfflineProfileId": "",
     "Name": "KYC Review Queue",
     "OriginatingVersion": "1.349",
     "ParserErrorCount": 0,

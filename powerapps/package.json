@@ -7,7 +7,6 @@
   "scripts": {
     "provision": "node scripts/provision.ts",
     "seed": "node scripts/seed.ts",
-    "tabledefs": "node scripts/tabledefs.ts",
     "deploy": "scripts/deploy.sh",
     "unpack": "scripts/unpack.sh",
     "typecheck": "tsc --noEmit -p tsconfig.json"

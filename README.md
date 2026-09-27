@@ -184,7 +184,6 @@ powerapps/
   scripts/
     provision.ts       creates publisher, solution, tables, columns, relationships (Web API)
     seed.ts            seeds the synthetic cases, checks and history (reuses server/src/seed.ts)
-    tabledefs.ts       refreshes pkgs/TableDefinitions from live Dataverse metadata (after schema changes)
     deploy.sh          pac canvas pack -> pac solution pack -> pac solution import
     unpack.sh          export from the environment and refresh canvas-app/ + solution/
 ```
@@ -216,7 +215,7 @@ export PP_CLIENT_ID=... PP_CLIENT_SECRET=...        # service principal (applica
 
 npm run provision -w powerapps     # idempotent: publisher, solution, tables, relationships
 npm run seed -w powerapps          # idempotent; add --reset to wipe and reseed
-npm run tabledefs -w powerapps     # only after changing tables/columns: refresh embedded table metadata
+# after changing tables/columns: re-add the tables in Studio (Data pane), Save + Publish, then npm run unpack
 
 pac auth create --url "$PP_ENV_URL" --applicationId "$PP_CLIENT_ID" \
   --clientSecret "$PP_CLIENT_SECRET" --tenant "$PP_TENANT_ID" --accept-cleartext-caching

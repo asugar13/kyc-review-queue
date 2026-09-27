@@ -1,52 +1,33 @@
 [
   {
-    "ApiId": "/kyc_caseactivity",
-    "CdsActionInfo": {
-      "CdsDataset": "default.cds",
-      "IsUnboundAction": false
-    },
     "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
     "EntitySetName": "kyc_caseactivities",
     "IsHidden": false,
     "IsSampleData": false,
     "IsWritable": true,
     "LogicalName": "kyc_caseactivity",
-    "MaxGetRowsCount": 500,
     "Name": "KYC Case Activities",
     "NativeCDSDataSourceInfoNameMapping": {
-      "_createdby_value": "Created By",
-      "_createdonbehalfby_value": "Created By (Delegate)",
-      "_kyc_case_value": "Case",
-      "_modifiedby_value": "Modified By",
-      "_modifiedonbehalfby_value": "Modified By (Delegate)",
-      "_organizationid_value": "Organization Id",
       "createdby": "Created By",
       "createdon": "Created On",
       "createdonbehalfby": "Created By (Delegate)",
       "importsequencenumber": "Import Sequence Number",
       "kyc_action": "Action",
-      "kyc_case": "Case",
-      "kyc_case_caseactivity": "kyc_case",
-      "kyc_caseactivity_AsyncOperations": "asyncoperation",
-      "kyc_caseactivity_BulkDeleteFailures": "bulkdeletefailure",
-      "kyc_caseactivity_MailboxTrackingFolders": "mailboxtrackingfolder",
-      "kyc_caseactivity_PrincipalObjectAttributeAccesses": "principalobjectattributeaccess",
-      "kyc_caseactivity_ProcessSession": "processsession",
-      "kyc_caseactivity_SyncErrors": "syncerror",
-      "kyc_caseactivity_UserEntityInstanceDatas": "userentityinstancedata",
+      "kyc_Case": "Case",
+      "kyc_caseactivity_AsyncOperations": "System Jobs",
+      "kyc_caseactivity_BulkDeleteFailures": "Bulk Delete Failures",
+      "kyc_caseactivity_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "kyc_caseactivity_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "kyc_caseactivity_ProcessSession": "Process Sessions",
+      "kyc_caseactivity_SyncErrors": "Sync Errors",
       "kyc_caseactivityid": "KYC Case Activity",
       "kyc_name": "Summary",
       "kyc_occurredat": "Occurred at",
       "kyc_reason": "Reason",
       "kyc_reviewer": "Reviewer",
-      "lk_kyc_caseactivity_createdby": "systemuser",
-      "lk_kyc_caseactivity_createdonbehalfby": "systemuser",
-      "lk_kyc_caseactivity_modifiedby": "systemuser",
-      "lk_kyc_caseactivity_modifiedonbehalfby": "systemuser",
       "modifiedby": "Modified By",
       "modifiedon": "Modified On",
       "modifiedonbehalfby": "Modified By (Delegate)",
-      "organization_kyc_caseactivity": "organization",
       "organizationid": "Organization Id",
       "overriddencreatedon": "Record Created On",
       "statecode": "Status",
@@ -57,6 +38,20 @@
     },
     "PreferredName": "KYC Case Activities",
     "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "KYC Case Activities (Views)",
+    "Name": "_kyc_caseactivity_views",
+    "RelatedEntityName": "KYC Case Activities",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "152e6b30-51d2-47c0-9be1-c02674fb8af9": "KYC Case Activity Lookup View",
+      "25bef758-cbb4-4e67-9560-d9f60520e3c6": "KYC Case Activity Associated View",
+      "74bb3306-8c73-4a57-aef9-77bfb9dd9148": "KYC Case Activity Advanced Find View",
+      "a28d1753-ca32-4bfc-97c1-79a2d929a5dc": "Active KYC Case Activities",
+      "bcf9d16a-d500-42a2-aeb7-bb7a63a2e99c": "Inactive KYC Case Activities"
+    }
   },
   {
     "DisplayName": "Action (KYC Case Activities)",
@@ -122,21 +117,5 @@
     "RelatedColumnInvariantName": "statuscode",
     "RelatedEntityName": "KYC Case Activities",
     "Type": "OptionSetInfo"
-  },
-  {
-    "DisplayName": "KYC Case Activities (Views)",
-    "Name": "_kyc_caseactivity_views",
-    "RelatedEntityName": "KYC Case Activities",
-    "TrimmedViewName": true,
-    "Type": "ViewInfo",
-    "ViewInfoNameMapping": {
-      "060da9e8-ffb9-f111-aaaf-000d3ad65b89": "KYC Case Activities",
-      "74bb3306-8c73-4a57-aef9-77bfb9dd9148": "KYC Case Activity Advanced Find View",
-      "a28d1753-ca32-4bfc-97c1-79a2d929a5dc": "Active KYC Case Activities",
-      "66dab391-247d-43e6-9427-aa3e75c26add": "Quick Find Active KYC Case Activities",
-      "bcf9d16a-d500-42a2-aeb7-bb7a63a2e99c": "Inactive KYC Case Activities",
-      "152e6b30-51d2-47c0-9be1-c02674fb8af9": "KYC Case Activity Lookup View",
-      "25bef758-cbb4-4e67-9560-d9f60520e3c6": "KYC Case Activity Associated View"
-    }
   }
 ]
