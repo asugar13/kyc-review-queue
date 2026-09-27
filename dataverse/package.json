@@ -1,0 +1,15 @@
+{
+  "name": "@kyc/dataverse",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Dataverse provisioning + seed scripts for the Power Apps version of the KYC review queue.",
+  "scripts": {
+    "provision": "node scripts/provision.ts",
+    "seed": "node scripts/seed.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.6"
+  }
+}
