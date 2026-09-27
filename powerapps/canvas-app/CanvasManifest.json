@@ -32,6 +32,7 @@
       "errorhandling": true
     },
     "Author": "",
+    "ContainsThirdPartyPcfControls": false,
     "DefaultConnectedDataSourceMaxGetRowsCount": 500,
     "DocumentAppType": "DesktopOrTablet",
     "DocumentLayoutHeight": 768,
@@ -41,11 +42,21 @@
     "DocumentLayoutScaleToFit": true,
     "DocumentLayoutWidth": 1366,
     "DocumentType": "App",
+    "EnableInstrumentation": false,
     "FileID": "2e7674f9-8664-47cb-a825-e6901c0801a2",
     "Id": "60e9e533-5f82-46d4-a321-67f8855c02a2",
     "InstrumentationKey": "",
     "Name": "KYC Review Queue",
     "OriginatingVersion": "1.294"
+  },
+  "PublishInfo": {
+    "AppName": "KYC Review Queue",
+    "BackgroundColor": "RGBA(15,76,129,1)",
+    "LogoFileName": "",
+    "PublishDataLocally": false,
+    "PublishResourcesLocally": false,
+    "PublishTarget": "player",
+    "UserLocale": "en-US"
   },
   "ScreenOrder": [
     "QueueScreen",

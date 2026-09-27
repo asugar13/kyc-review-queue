@@ -9,8 +9,6 @@ DetailScreen As screen:
         Fill: =RGBA(23, 43, 77, 1)
         Height: =72
         Width: =Parent.Width
-        X: =0
-        Y: =0
         ZIndex: =1
 
     BackIcon As icon.ArrowLeft:
@@ -34,7 +32,6 @@ DetailScreen As screen:
         Text: =SelectedCase.'Case reference' & " · " & SelectedCase.'Applicant name'
         Width: =620
         X: =68
-        Y: =0
         ZIndex: =3
 
     DetailFlagIcon As icon.Flag:
@@ -113,7 +110,6 @@ DetailScreen As screen:
             Fill: =RGBA(225, 228, 232, 1)
             Height: =1
             Width: =Parent.Width
-            X: =0
             Y: =45
             ZIndex: =2
 
@@ -123,9 +119,7 @@ DetailScreen As screen:
             Height: =45
             Size: =12
             Text: =ThisItem.Field
-            Width: =150
             X: =12
-            Y: =0
             ZIndex: =3
 
         FieldValueLabel As label:
@@ -135,9 +129,7 @@ DetailScreen As screen:
             Size: =12
             Text: =ThisItem.Value
             Width: =Parent.Width - 174
-            Wrap: =true
             X: =162
-            Y: =0
             ZIndex: =4
 
     ChecksHeading As label:
@@ -168,7 +160,6 @@ DetailScreen As screen:
             Fill: =RGBA(225, 228, 232, 1)
             Height: =1
             Width: =Parent.Width
-            X: =0
             Y: =51
             ZIndex: =2
 
@@ -244,7 +235,6 @@ DetailScreen As screen:
             Fill: =RGBA(225, 228, 232, 1)
             Height: =1
             Width: =Parent.Width
-            X: =0
             Y: =73
             ZIndex: =2
 
@@ -280,7 +270,6 @@ DetailScreen As screen:
             Text: =ThisItem.Reason
             VerticalAlign: =VerticalAlign.Top
             Width: =Parent.Width - 24
-            Wrap: =true
             X: =12
             Y: =46
             ZIndex: =5
@@ -309,7 +298,6 @@ DetailScreen As screen:
             ="This case was " & Lower(Text(SelectedCase.'Case status')) & " on " & Text(SelectedCase.'Decided at', "dd mmm yyyy hh:mm") & " and is locked. Final decisions cannot be changed or added to."
         Visible: =IsFinal
         Width: =Parent.Width - 936
-        Wrap: =true
         X: =912
         Y: =128
         ZIndex: =13
@@ -475,7 +463,6 @@ DetailScreen As screen:
             ="Approve and Escalate are final: the case is locked and no further decisions can be recorded. Request more information keeps the case open. Every decision is stored with its reason in the activity history."
         VerticalAlign: =VerticalAlign.Top
         Width: =Parent.Width - 936
-        Wrap: =true
         X: =912
         Y: =If(IsFinal, 224, 516)
         ZIndex: =20

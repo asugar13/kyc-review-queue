@@ -7,8 +7,6 @@ QueueScreen As screen:
         Fill: =RGBA(23, 43, 77, 1)
         Height: =72
         Width: =Parent.Width
-        X: =0
-        Y: =0
         ZIndex: =1
 
     QueueTitle As label:
@@ -20,7 +18,6 @@ QueueScreen As screen:
         Text: ="KYC Review Queue"
         Width: =260
         X: =24
-        Y: =0
         ZIndex: =2
 
     QueueSubtitle As label:
@@ -31,7 +28,6 @@ QueueScreen As screen:
         Text: ="Power Apps + Dataverse prototype · all data is synthetic"
         Width: =420
         X: =284
-        Y: =0
         ZIndex: =3
 
     ActingAsLabel As label:
@@ -60,7 +56,6 @@ QueueScreen As screen:
         Color: =RGBA(50, 49, 48, 1)
         Font: =Font.'Segoe UI'
         FontWeight: =FontWeight.Semibold
-        Height: =40
         Text: ="Status"
         Width: =60
         X: =24
@@ -71,7 +66,6 @@ QueueScreen As screen:
         AccessibleLabel: ="Filter cases by status"
         Default: ="Pending"
         Font: =Font.'Segoe UI'
-        Height: =40
         Items: |-
             =Table(
                 {Value: "All statuses", Status: Blank()},
@@ -89,7 +83,6 @@ QueueScreen As screen:
         AccessibleLabel: ="Search by applicant name or case reference"
         Clear: =true
         Font: =Font.'Segoe UI'
-        Height: =40
         HintText: ="Search applicant name or case reference"
         Width: =380
         X: =332
@@ -100,7 +93,6 @@ QueueScreen As screen:
         Align: =Align.Right
         Color: =RGBA(96, 94, 92, 1)
         Font: =Font.'Segoe UI'
-        Height: =40
         Text: =CountRows(CaseGallery.AllItems) & If(CountRows(CaseGallery.AllItems) = 1, " case", " cases") & " shown"
         Width: =300
         X: =Parent.Width - 324
@@ -138,7 +130,6 @@ QueueScreen As screen:
         Height: =32
         Size: =11
         Text: ="SUBMITTED"
-        Width: =150
         X: =400
         Y: =148
         ZIndex: =12
@@ -208,7 +199,6 @@ QueueScreen As screen:
             Fill: =RGBA(225, 228, 232, 1)
             Height: =1
             Width: =Parent.Width
-            X: =0
             Y: =63
             ZIndex: =2
 
@@ -233,7 +223,6 @@ QueueScreen As screen:
             Text: =ThisItem.'Case reference'
             Width: =110
             X: =56
-            Y: =0
             ZIndex: =4
 
         ApplicantLabel As label:
@@ -271,9 +260,7 @@ QueueScreen As screen:
             Size: =12
             Text: |-
                 =Text(ThisItem.'Submitted at', "dd mmm yyyy hh:mm")
-            Width: =150
             X: =400
-            Y: =0
             ZIndex: =7
 
         StatusBadge As label:
@@ -305,7 +292,6 @@ QueueScreen As screen:
             Text: =ThisItem.'Assigned reviewer'
             Width: =170
             X: =700
-            Y: =0
             ZIndex: =9
 
         ReasonLabel As label:
@@ -315,9 +301,7 @@ QueueScreen As screen:
             Size: =12
             Text: =ThisItem.'Review reason'
             Width: =Parent.Width - 940
-            Wrap: =true
             X: =880
-            Y: =0
             ZIndex: =10
 
         ChevronIcon As icon.ChevronRight:
@@ -339,7 +323,6 @@ QueueScreen As screen:
         Text: ="No cases match the current filter."
         Visible: =CountRows(CaseGallery.AllItems) = 0
         Width: =Parent.Width
-        X: =0
         Y: =220
         ZIndex: =17
 

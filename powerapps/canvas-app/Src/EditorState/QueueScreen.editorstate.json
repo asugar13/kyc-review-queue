@@ -369,10 +369,6 @@
         {
           "PropertyName": "TabIndex",
           "RuleProviderType": "Unknown"
-        },
-        {
-          "PropertyName": "OnSelect",
-          "RuleProviderType": "Unknown"
         }
       ],
       "StyleName": "defaultGalleryStyle"
