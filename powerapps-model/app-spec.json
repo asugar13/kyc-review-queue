@@ -1,0 +1,158 @@
+{
+  "solution": {
+    "uniqueName": "KYCReviewModelDriven",
+    "displayName": "KYC Review (model-driven)",
+    "publisherPrefix": "kyc"
+  },
+  "app": {
+    "name": "KYC Review (model-driven)",
+    "description": "Model-driven version of the KYC review queue: work pending cases, review applicant details and verification checks, record Approve / Request information / Escalate decisions with a written reason, and read the case history."
+  },
+  "entities": [
+    {
+      "schemaName": "kyc_case",
+      "displayName": "KYC Case",
+      "pluralName": "KYC Cases",
+      "existing": true,
+      "description": "One applicant onboarding case moving through the KYC review workflow.",
+      "primaryAttribute": { "schemaName": "kyc_name", "displayName": "Case reference" },
+      "columns": [
+        { "schemaName": "kyc_applicantname", "displayName": "Applicant name", "type": "Text" },
+        { "schemaName": "kyc_email", "displayName": "Email", "type": "Text" },
+        { "schemaName": "kyc_dateofbirth", "displayName": "Date of birth", "type": "DateTime" },
+        { "schemaName": "kyc_nationality", "displayName": "Nationality", "type": "Text" },
+        { "schemaName": "kyc_countryofresidence", "displayName": "Country of residence", "type": "Text" },
+        { "schemaName": "kyc_address", "displayName": "Address", "type": "Memo" },
+        { "schemaName": "kyc_documenttype", "displayName": "Document type", "type": "Text" },
+        { "schemaName": "kyc_documentnumber", "displayName": "Document number", "type": "Text" },
+        { "schemaName": "kyc_declaredoccupation", "displayName": "Declared occupation", "type": "Text" },
+        { "schemaName": "kyc_product", "displayName": "Product", "type": "Text" },
+        { "schemaName": "kyc_expectedmonthlyvolume", "displayName": "Expected monthly volume", "type": "Text" },
+        { "schemaName": "kyc_status", "displayName": "Status", "type": "Choice", "options": ["Pending", "Info requested", "Approved", "Escalated"] },
+        { "schemaName": "kyc_risklevel", "displayName": "Risk level", "type": "Choice", "options": ["Low", "Medium", "High"] },
+        { "schemaName": "kyc_flagged", "displayName": "Flagged", "type": "Boolean" },
+        { "schemaName": "kyc_assignedreviewer", "displayName": "Assigned reviewer", "type": "Text" },
+        { "schemaName": "kyc_submittedat", "displayName": "Submitted at", "type": "DateTime" },
+        { "schemaName": "kyc_decidedat", "displayName": "Decided at", "type": "DateTime" },
+        { "schemaName": "kyc_reviewreason", "displayName": "Review reason", "type": "Memo" }
+      ]
+    },
+    {
+      "schemaName": "kyc_caseactivity",
+      "displayName": "KYC Case Activity",
+      "pluralName": "KYC Case Activities",
+      "existing": true,
+      "description": "Chronological history entry for a case (submission, assignment, decisions, notes).",
+      "primaryAttribute": { "schemaName": "kyc_name", "displayName": "Summary" },
+      "columns": [
+        { "schemaName": "kyc_action", "displayName": "Action", "type": "Choice", "options": ["Submitted", "Assigned", "Info requested", "Info received", "Approved", "Escalated", "Note"] },
+        { "schemaName": "kyc_reviewer", "displayName": "Reviewer", "type": "Text" },
+        { "schemaName": "kyc_occurredat", "displayName": "Occurred at", "type": "DateTime" },
+        { "schemaName": "kyc_reason", "displayName": "Reason", "type": "Memo" }
+      ]
+    },
+    {
+      "schemaName": "kyc_verificationcheck",
+      "displayName": "Verification Check",
+      "pluralName": "Verification Checks",
+      "existing": true,
+      "description": "Result of one synthetic identity/AML check performed on a case.",
+      "primaryAttribute": { "schemaName": "kyc_name", "displayName": "Check" },
+      "columns": [
+        { "schemaName": "kyc_result", "displayName": "Result", "type": "Choice", "options": ["Pass", "Review", "Fail"] },
+        { "schemaName": "kyc_detail", "displayName": "Detail", "type": "Memo" },
+        { "schemaName": "kyc_order", "displayName": "Order", "type": "Integer" }
+      ]
+    }
+  ],
+  "relationships": [
+    { "type": "OneToMany", "schemaName": "kyc_case_caseactivity", "referenced": "kyc_case", "referencing": "kyc_caseactivity",
+      "lookup": { "schemaName": "kyc_Case", "displayName": "Case" } },
+    { "type": "OneToMany", "schemaName": "kyc_case_verificationcheck", "referenced": "kyc_case", "referencing": "kyc_verificationcheck",
+      "lookup": { "schemaName": "kyc_Case", "displayName": "Case" } }
+  ],
+  "webResources": [
+    { "name": "kyc_casecommands.js", "displayName": "KYC Case decision commands", "type": "js", "contentPath": "kyc_casecommands.js" }
+  ],
+  "views": [
+    { "entity": "kyc_case", "name": "Review queue", "description": "Cases still awaiting a decision (Pending or Info requested), oldest submission first — the reviewer's work list.",
+      "columns": ["kyc_name", "kyc_applicantname", "kyc_status", "kyc_risklevel", "kyc_flagged", "kyc_assignedreviewer", "kyc_submittedat"],
+      "sort": [{ "attr": "kyc_submittedat", "dir": "asc" }],
+      "filters": [{ "attr": "kyc_status", "op": "in", "values": ["Pending", "Info requested"] }] },
+    { "entity": "kyc_case", "name": "Flagged cases", "description": "Cases flagged for extra scrutiny, regardless of status.",
+      "columns": ["kyc_name", "kyc_applicantname", "kyc_status", "kyc_risklevel", "kyc_assignedreviewer", "kyc_submittedat"],
+      "sort": [{ "attr": "kyc_submittedat", "dir": "asc" }],
+      "filters": [{ "attr": "kyc_flagged", "op": "eq", "value": "1" }] },
+    { "entity": "kyc_case", "name": "All cases", "description": "Every case including decided ones, newest first.",
+      "columns": ["kyc_name", "kyc_applicantname", "kyc_status", "kyc_risklevel", "kyc_flagged", "kyc_assignedreviewer", "kyc_submittedat", "kyc_decidedat"],
+      "sort": [{ "attr": "kyc_submittedat", "dir": "desc" }] },
+    { "entity": "kyc_caseactivity", "name": "Case history", "description": "Activity entries in chronological order — shown as the History sub-grid on the case form.",
+      "columns": ["kyc_occurredat", "kyc_action", "kyc_name", "kyc_reviewer", "kyc_reason"],
+      "sort": [{ "attr": "kyc_occurredat", "dir": "asc" }] },
+    { "entity": "kyc_verificationcheck", "name": "Checks", "description": "Verification checks in their defined order — shown as the Verification checks sub-grid on the case form.",
+      "columns": ["kyc_order", "kyc_name", "kyc_result", "kyc_detail"],
+      "sort": [{ "attr": "kyc_order", "dir": "asc" }] }
+  ],
+  "forms": [
+    { "entity": "kyc_case", "type": "main", "name": "KYC Case review", "isDefault": true,
+      "description": "The case detail screen: applicant information, case status and decision reason, plus verification checks and history sub-grids.",
+      "tabs": [
+        { "name": "tab_review", "label": "Review", "columns": [
+          { "width": "60%", "sections": [
+            { "name": "sec_applicant", "label": "Applicant", "columns": 2, "fields": [
+              "kyc_applicantname", "kyc_email", "kyc_dateofbirth", "kyc_nationality", "kyc_countryofresidence",
+              "kyc_declaredoccupation", "kyc_documenttype", "kyc_documentnumber", "kyc_product", "kyc_expectedmonthlyvolume",
+              { "name": "kyc_address", "colspan": 2 } ] } ] },
+          { "width": "40%", "sections": [
+            { "name": "sec_case", "label": "Case", "columns": 1, "fields": [
+              { "name": "kyc_name", "readOnly": true }, "kyc_status", "kyc_risklevel", "kyc_flagged", "kyc_assignedreviewer",
+              { "name": "kyc_submittedat", "readOnly": true }, { "name": "kyc_decidedat", "readOnly": true }, "kyc_reviewreason" ] } ] } ] }
+      ],
+      "subgrids": [
+        { "childEntity": "kyc_verificationcheck", "view": "Checks", "label": "Verification checks" },
+        { "childEntity": "kyc_caseactivity", "view": "Case history", "label": "History" }
+      ] },
+    { "entity": "kyc_caseactivity", "type": "main", "name": "KYC Case Activity", "layout": "auto",
+      "description": "A single history entry; normally created by the decision buttons, editable for notes." },
+    { "entity": "kyc_verificationcheck", "type": "main", "name": "Verification Check", "layout": "auto",
+      "description": "A single verification check result." }
+  ],
+  "commands": [
+    { "entity": "kyc_case", "label": "Approve", "location": "MainTab", "library": "kyc_casecommands.js", "function": "KycCase.approve" },
+    { "entity": "kyc_case", "label": "Request information", "location": "MainTab", "library": "kyc_casecommands.js", "function": "KycCase.requestInfo" },
+    { "entity": "kyc_case", "label": "Escalate", "location": "MainTab", "library": "kyc_casecommands.js", "function": "KycCase.escalate" }
+  ],
+  "businessRules": [
+    { "entity": "kyc_case", "name": "Reason required once a decision is recorded",
+      "description": "Any status other than Pending is the result of a reviewer decision, which must carry a written reason.",
+      "conditions": [{ "field": "kyc_status", "operator": "DoesNotEqual", "value": "100000000", "dataType": "Picklist" }],
+      "actions": [{ "type": "SetBusinessRequired", "field": "kyc_reviewreason", "required": true }] },
+    { "entity": "kyc_case", "name": "Approved cases are locked",
+      "description": "Approved is a final state: the decision fields can no longer be edited.",
+      "conditions": [{ "field": "kyc_status", "operator": "Equals", "value": "100000002", "dataType": "Picklist" }],
+      "actions": [
+        { "type": "LockUnlock", "field": "kyc_status", "lock": true },
+        { "type": "LockUnlock", "field": "kyc_reviewreason", "lock": true },
+        { "type": "LockUnlock", "field": "kyc_risklevel", "lock": true },
+        { "type": "LockUnlock", "field": "kyc_flagged", "lock": true },
+        { "type": "LockUnlock", "field": "kyc_assignedreviewer", "lock": true } ] },
+    { "entity": "kyc_case", "name": "Escalated cases are locked",
+      "description": "Escalated is a final state: the decision fields can no longer be edited.",
+      "conditions": [{ "field": "kyc_status", "operator": "Equals", "value": "100000003", "dataType": "Picklist" }],
+      "actions": [
+        { "type": "LockUnlock", "field": "kyc_status", "lock": true },
+        { "type": "LockUnlock", "field": "kyc_reviewreason", "lock": true },
+        { "type": "LockUnlock", "field": "kyc_risklevel", "lock": true },
+        { "type": "LockUnlock", "field": "kyc_flagged", "lock": true },
+        { "type": "LockUnlock", "field": "kyc_assignedreviewer", "lock": true } ] }
+  ],
+  "appShell": {
+    "areas": [
+      { "label": "KYC Review", "groups": [
+        { "label": "Review", "subAreas": [
+          { "entity": "kyc_case", "title": "Cases" },
+          { "entity": "kyc_verificationcheck", "title": "Verification checks" },
+          { "entity": "kyc_caseactivity", "title": "History" } ] } ] }
+    ]
+  }
+}
