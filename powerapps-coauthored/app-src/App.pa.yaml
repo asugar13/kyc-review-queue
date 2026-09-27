@@ -1,0 +1,4 @@
+App:
+  Properties:
+    Theme: =PowerAppsTheme
+    StartScreen: =Screen1
