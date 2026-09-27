@@ -180,6 +180,27 @@ Dataverse schema (publisher prefix `kyc`):
 | `kyc_verificationcheck` | simulated screening results | Check, Result (Pass / Warn / Fail), Detail, Order, Case (lookup) |
 | `kyc_caseactivity` | chronological history | Summary, Action, Reason, Reviewer, Occurred at, Case (lookup) |
 
+### Model-driven variant (experiment)
+
+The same tables also back a second, **model-driven** app — **KYC Review (model-driven)**
+(`79defb02-eb8a-47ae-bdbf-e4a466dc89ff`), built headlessly from `powerapps-model/app-spec.json`
+with Microsoft's `model-apps` builder (no Studio, no MCP; every artifact is created through the
+Dataverse API and read back). It reuses the three KYC tables and the seeded cases as-is and adds
+views (Review queue / Flagged cases / All cases / Case history / Checks), a case form with the
+verification-check and history sub-grids, Approve / Request information / Escalate command-bar
+buttons (`powerapps-model/kyc_casecommands.js`), and form logic that requires a reason on any
+decision and locks Approved / Escalated cases.
+
+- Play: <https://org64ad231d.crm11.dynamics.com/main.aspx?appid=79defb02-eb8a-47ae-bdbf-e4a466dc89ff>
+- Design notes: `powerapps-model/model-app-plan.md` (generated from the spec).
+- Rebuild: `build-model-app.js --apply --publish --verify` from Microsoft's `model-apps` plugin, then
+  `node powerapps-model/postbuild.mts` (same `PP_*` env vars as the Dataverse scripts) to refresh the
+  form script and declare it on the form — two things the builder does not redo on a rebuild.
+
+Business rules could not be created in this environment (the `CreateProcessWithWfomJson` member
+rejects every rule with HTTP 400), so the reason-required / final-state logic lives in the form's
+`onload`/`onchange` handlers instead.
+
 ### Rebuilding the Dataverse side
 
 The tables and seed data are created by scripts under `dataverse/` (Node 22+, no
