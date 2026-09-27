@@ -122,10 +122,10 @@ Screens:
                               Text: '="Submitted " & Text(ThisItem.kyc_submittedat, DateTimeFormat.ShortDate)'
                               Size: =12
                               Color: =RGBA(90, 95, 105, 1)
-                              X: =Parent.Width - 480
-                              Y: =8
+                              X: =Parent.Width - 320
+                              Y: =10
                               Width: =160
-                              Height: =24
+                              Height: =20
                         - bdgQueueRisk:
                             Control: Badge
                             Properties:
@@ -133,9 +133,9 @@ Screens:
                               ThemeColor: =If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.High, 'BadgeCanvas.ThemeColor'.Danger, If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.Medium, 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Success))
                               Appearance: ='BadgeCanvas.Appearance'.Tint
                               Shape: ='BadgeCanvas.Shape'.Rounded
-                              X: =Parent.Width - 480
-                              Y: =36
-                              Width: =100
+                              X: =Parent.Width - 320
+                              Y: =34
+                              Width: =110
                               Height: =26
                         - bdgQueueStatus:
                             Control: Badge
@@ -144,8 +144,8 @@ Screens:
                               ThemeColor: =If(ThisItem.kyc_status = 'Status (KYC Cases)'.Pending, 'BadgeCanvas.ThemeColor'.Warning, If(ThisItem.kyc_status = 'Status (KYC Cases)'.'Info requested', 'BadgeCanvas.ThemeColor'.Severe, If(ThisItem.kyc_status = 'Status (KYC Cases)'.Approved, 'BadgeCanvas.ThemeColor'.Success, 'BadgeCanvas.ThemeColor'.Important)))
                               Appearance: ='BadgeCanvas.Appearance'.Filled
                               Shape: ='BadgeCanvas.Shape'.Rounded
-                              X: =Parent.Width - 330
-                              Y: =20
+                              X: =Parent.Width - 140
+                              Y: =17
                               Width: =130
                               Height: =30
                         - txtQueueFlagged:
@@ -153,17 +153,18 @@ Screens:
                             Properties:
                               Text: ="⚑ Flagged"
                               Color: =RGBA(180, 40, 40, 1)
-                              Size: =12
+                              Size: =11
                               FontWeight: =FontWeight.Semibold
                               X: =Parent.Width - 140
-                              Y: =8
+                              Y: =2
                               Width: =100
-                              Height: =24
+                              Height: =14
                               Visible: =ThisItem.kyc_flagged = 'Flagged (KYC Cases)'.Yes
                         - rctQueueOpen:
                             Control: Rectangle
                             Properties:
                               Fill: =RGBA(0, 0, 0, 0)
+                              HoverFill: =RGBA(56, 96, 178, 0.08)
                               BorderThickness: =0
                               X: =0
                               Y: =0
