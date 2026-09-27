@@ -195,7 +195,9 @@ decision and locks Approved / Escalated cases.
 - Design notes: `powerapps-model/model-app-plan.md` (generated from the spec).
 - Rebuild: `build-model-app.js --apply --publish --verify` from Microsoft's `model-apps` plugin, then
   `node powerapps-model/postbuild.mts` (same `PP_*` env vars as the Dataverse scripts) to refresh the
-  form script and declare it on the form — two things the builder does not redo on a rebuild.
+  form script, declare it on the form, make **Review queue** the default view, add a Quick Find view
+  that searches case reference / applicant / email / reviewer, and retire the stock
+  `Active` / `Inactive KYC Cases` views — things the builder does not do (or redo) on a rebuild.
 
 Business rules could not be created in this environment (the `CreateProcessWithWfomJson` member
 rejects every rule with HTTP 400), so the reason-required / final-state logic lives in the form's
