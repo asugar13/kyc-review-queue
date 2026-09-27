@@ -21,10 +21,12 @@
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
+          "Category": "Data",
           "PropertyName": "BackEnabled",
           "RuleProviderType": "Unknown"
         },
         {
+          "Category": "Design",
           "PropertyName": "Theme",
           "RuleProviderType": "Unknown"
         },
