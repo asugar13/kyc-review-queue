@@ -122,10 +122,10 @@ Screens:
                               Text: '="Submitted " & Text(ThisItem.kyc_submittedat, DateTimeFormat.ShortDate)'
                               Size: =12
                               Color: =RGBA(90, 95, 105, 1)
-                              X: =Parent.Width - 320
-                              Y: =10
+                              X: =Parent.Width - 470
+                              Y: =20
                               Width: =160
-                              Height: =20
+                              Height: =24
                         - bdgQueueRisk:
                             Control: Badge
                             Properties:
@@ -133,10 +133,10 @@ Screens:
                               ThemeColor: =If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.High, 'BadgeCanvas.ThemeColor'.Danger, If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.Medium, 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Success))
                               Appearance: ='BadgeCanvas.Appearance'.Tint
                               Shape: ='BadgeCanvas.Shape'.Rounded
-                              X: =Parent.Width - 320
-                              Y: =34
+                              X: =Parent.Width - 300
+                              Y: =18
                               Width: =110
-                              Height: =26
+                              Height: =28
                         - bdgQueueStatus:
                             Control: Badge
                             Properties:
@@ -145,20 +145,20 @@ Screens:
                               Appearance: ='BadgeCanvas.Appearance'.Filled
                               Shape: ='BadgeCanvas.Shape'.Rounded
                               X: =Parent.Width - 140
-                              Y: =17
+                              Y: =18
                               Width: =130
-                              Height: =30
+                              Height: =28
                         - txtQueueFlagged:
                             Control: ModernText
                             Properties:
                               Text: ="⚑ Flagged"
                               Color: =RGBA(180, 40, 40, 1)
-                              Size: =11
+                              Size: =12
                               FontWeight: =FontWeight.Semibold
-                              X: =Parent.Width - 140
-                              Y: =2
+                              X: =350
+                              Y: =11
                               Width: =100
-                              Height: =14
+                              Height: =22
                               Visible: =ThisItem.kyc_flagged = 'Flagged (KYC Cases)'.Yes
                         - rctQueueOpen:
                             Control: Rectangle

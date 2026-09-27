@@ -115,46 +115,46 @@ Screens:
                             Control: ModernText
                             Properties:
                               Color: =RGBA(90, 95, 105, 1)
-                              Height: =20
+                              Height: =24
                               Size: =12
                               Text: ="Submitted " & Text(ThisItem.kyc_submittedat, DateTimeFormat.ShortDate)
                               Width: =160
-                              X: =Parent.Width - 320
-                              Y: =10
+                              X: =Parent.Width - 470
+                              Y: =20
                         - bdgQueueRisk:
                             Control: Badge
                             Properties:
                               Appearance: ='BadgeCanvas.Appearance'.Tint
                               Content: =If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.High, "High risk", If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.Medium, "Medium risk", "Low risk"))
-                              Height: =26
+                              Height: =28
                               Shape: ='BadgeCanvas.Shape'.Rounded
                               ThemeColor: =If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.High, 'BadgeCanvas.ThemeColor'.Danger, If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.Medium, 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Success))
                               Width: =110
-                              X: =Parent.Width - 320
-                              Y: =34
+                              X: =Parent.Width - 300
+                              Y: =18
                         - bdgQueueStatus:
                             Control: Badge
                             Properties:
                               Appearance: ='BadgeCanvas.Appearance'.Filled
                               Content: =If(ThisItem.kyc_status = 'Status (KYC Cases)'.Pending, "Pending", If(ThisItem.kyc_status = 'Status (KYC Cases)'.'Info requested', "Info requested", If(ThisItem.kyc_status = 'Status (KYC Cases)'.Approved, "Approved", "Escalated")))
-                              Height: =30
+                              Height: =28
                               Shape: ='BadgeCanvas.Shape'.Rounded
                               ThemeColor: =If(ThisItem.kyc_status = 'Status (KYC Cases)'.Pending, 'BadgeCanvas.ThemeColor'.Warning, If(ThisItem.kyc_status = 'Status (KYC Cases)'.'Info requested', 'BadgeCanvas.ThemeColor'.Severe, If(ThisItem.kyc_status = 'Status (KYC Cases)'.Approved, 'BadgeCanvas.ThemeColor'.Success, 'BadgeCanvas.ThemeColor'.Important)))
                               Width: =130
                               X: =Parent.Width - 140
-                              Y: =17
+                              Y: =18
                         - txtQueueFlagged:
                             Control: ModernText
                             Properties:
                               Color: =RGBA(180, 40, 40, 1)
                               FontWeight: =FontWeight.Semibold
-                              Height: =14
-                              Size: =11
+                              Height: =22
+                              Size: =12
                               Text: ="⚑ Flagged"
                               Visible: =ThisItem.kyc_flagged = 'Flagged (KYC Cases)'.Yes
                               Width: =100
-                              X: =Parent.Width - 140
-                              Y: =2
+                              X: =350
+                              Y: =11
                         - rctQueueOpen:
                             Control: Rectangle
                             Properties:
