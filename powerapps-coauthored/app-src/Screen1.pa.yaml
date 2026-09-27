@@ -85,7 +85,7 @@ Screens:
                       Control: GroupContainer
                       Variant: ManualLayout
                       Properties:
-                        Width: =Parent.TemplateWidth - 12
+                        Width: =Parent.Width - 12
                         Height: =Parent.TemplateHeight - 12
                         X: =6
                         Y: =6
@@ -122,9 +122,9 @@ Screens:
                               Text: '="Submitted " & Text(ThisItem.kyc_submittedat, DateTimeFormat.ShortDate)'
                               Size: =12
                               Color: =RGBA(90, 95, 105, 1)
-                              X: =360
+                              X: =Parent.Width - 480
                               Y: =8
-                              Width: =220
+                              Width: =160
                               Height: =24
                         - bdgQueueRisk:
                             Control: Badge
@@ -133,7 +133,7 @@ Screens:
                               ThemeColor: =If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.High, 'BadgeCanvas.ThemeColor'.Danger, If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.Medium, 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Success))
                               Appearance: ='BadgeCanvas.Appearance'.Tint
                               Shape: ='BadgeCanvas.Shape'.Rounded
-                              X: =360
+                              X: =Parent.Width - 480
                               Y: =36
                               Width: =100
                               Height: =26
@@ -144,7 +144,7 @@ Screens:
                               ThemeColor: =If(ThisItem.kyc_status = 'Status (KYC Cases)'.Pending, 'BadgeCanvas.ThemeColor'.Warning, If(ThisItem.kyc_status = 'Status (KYC Cases)'.'Info requested', 'BadgeCanvas.ThemeColor'.Severe, If(ThisItem.kyc_status = 'Status (KYC Cases)'.Approved, 'BadgeCanvas.ThemeColor'.Success, 'BadgeCanvas.ThemeColor'.Important)))
                               Appearance: ='BadgeCanvas.Appearance'.Filled
                               Shape: ='BadgeCanvas.Shape'.Rounded
-                              X: =480
+                              X: =Parent.Width - 330
                               Y: =20
                               Width: =130
                               Height: =30
@@ -155,21 +155,20 @@ Screens:
                               Color: =RGBA(180, 40, 40, 1)
                               Size: =12
                               FontWeight: =FontWeight.Semibold
-                              X: =620
+                              X: =Parent.Width - 140
                               Y: =8
                               Width: =100
                               Height: =24
                               Visible: =ThisItem.kyc_flagged = 'Flagged (KYC Cases)'.Yes
-                        - btnQueueOpen:
-                            Control: Classic/Button
+                        - rctQueueOpen:
+                            Control: Rectangle
                             Properties:
-                              Text: =""
                               Fill: =RGBA(0, 0, 0, 0)
+                              BorderThickness: =0
                               X: =0
                               Y: =0
                               Width: =Parent.Width
                               Height: =Parent.Height
-                              Tooltip: ="Open case"
                               OnSelect: |-
                                 =Set(varSelectedCase, ThisItem);
                                 Navigate(CaseDetail)

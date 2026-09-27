@@ -88,10 +88,19 @@ Screens:
                         RadiusBottomRight: =8
                         RadiusTopLeft: =8
                         RadiusTopRight: =8
-                        Width: =Parent.TemplateWidth - 12
+                        Width: =Parent.Width - 12
                         X: =6
                         Y: =6
                       Children:
+                        - rctQueueOpen:
+                            Control: Rectangle
+                            Properties:
+                              Fill: =RGBA(0, 0, 0, 0)
+                              Height: =Parent.Height
+                              OnSelect: |-
+                                =Set(varSelectedCase, ThisItem);
+                                Navigate(CaseDetail)
+                              Width: =Parent.Width
                         - txtQueueApplicant:
                             Control: ModernText
                             Properties:
@@ -118,8 +127,8 @@ Screens:
                               Height: =24
                               Size: =12
                               Text: ="Submitted " & Text(ThisItem.kyc_submittedat, DateTimeFormat.ShortDate)
-                              Width: =220
-                              X: =360
+                              Width: =160
+                              X: =Parent.Width - 480
                               Y: =8
                         - bdgQueueRisk:
                             Control: Badge
@@ -130,7 +139,7 @@ Screens:
                               Shape: ='BadgeCanvas.Shape'.Rounded
                               ThemeColor: =If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.High, 'BadgeCanvas.ThemeColor'.Danger, If(ThisItem.kyc_risklevel = 'Risk level (KYC Cases)'.Medium, 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Success))
                               Width: =100
-                              X: =360
+                              X: =Parent.Width - 480
                               Y: =36
                         - bdgQueueStatus:
                             Control: Badge
@@ -141,7 +150,7 @@ Screens:
                               Shape: ='BadgeCanvas.Shape'.Rounded
                               ThemeColor: =If(ThisItem.kyc_status = 'Status (KYC Cases)'.Pending, 'BadgeCanvas.ThemeColor'.Warning, If(ThisItem.kyc_status = 'Status (KYC Cases)'.'Info requested', 'BadgeCanvas.ThemeColor'.Severe, If(ThisItem.kyc_status = 'Status (KYC Cases)'.Approved, 'BadgeCanvas.ThemeColor'.Success, 'BadgeCanvas.ThemeColor'.Important)))
                               Width: =130
-                              X: =480
+                              X: =Parent.Width - 330
                               Y: =20
                         - txtQueueFlagged:
                             Control: ModernText
@@ -153,16 +162,5 @@ Screens:
                               Text: ="⚑ Flagged"
                               Visible: =ThisItem.kyc_flagged = 'Flagged (KYC Cases)'.Yes
                               Width: =100
-                              X: =620
+                              X: =Parent.Width - 140
                               Y: =8
-                        - btnQueueOpen:
-                            Control: Classic/Button
-                            Properties:
-                              Fill: =RGBA(0, 0, 0, 0)
-                              Height: =Parent.Height
-                              OnSelect: |-
-                                =Set(varSelectedCase, ThisItem);
-                                Navigate(CaseDetail)
-                              Text: =""
-                              Tooltip: ="Open case"
-                              Width: =Parent.Width
