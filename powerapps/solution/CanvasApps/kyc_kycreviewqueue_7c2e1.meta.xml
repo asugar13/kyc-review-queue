@@ -21,6 +21,7 @@
   <CanConsumeAppPass>1</CanConsumeAppPass>
   <CanvasAppType>0</CanvasAppType>
   <BypassConsent>0</BypassConsent>
+  <AdminControlBypassConsent>0</AdminControlBypassConsent>
   <EmbeddedApp xsi:nil="true"></EmbeddedApp>
   <IntroducedVersion>1.0</IntroducedVersion>
   <CdsDependencies>{"cdsdependencies":[{"componenttype":1,"logicalname":"kyc_case"},{"componenttype":1,"logicalname":"kyc_verificationcheck"},{"componenttype":1,"logicalname":"kyc_caseactivity"}]}</CdsDependencies>
