@@ -1,7 +1,7 @@
 DetailScreen As screen:
     Fill: =RGBA(243, 244, 246, 1)
     OnVisible: |-
-        =Set(IsFinal, SelectedCase.'Case status' = 'Case status (KYC Cases)'.Approved || SelectedCase.'Case status' = 'Case status (KYC Cases)'.Escalated);
+        =Set(IsFinal, SelectedCase.'Status (kyc_status)' = 'Status (KYC Cases)'.Approved || SelectedCase.'Status (kyc_status)' = 'Status (KYC Cases)'.Escalated);
         Reset(ReasonInput)
     ZIndex: =1
 
@@ -52,17 +52,17 @@ DetailScreen As screen:
         Color: =RGBA(255, 255, 255, 1)
         Fill: |-
             =Switch(
-                SelectedCase.'Case status',
-                'Case status (KYC Cases)'.Approved, RGBA(16, 124, 16, 1),
-                'Case status (KYC Cases)'.Escalated, RGBA(196, 49, 75, 1),
-                'Case status (KYC Cases)'.'Info requested', RGBA(176, 108, 0, 1),
+                SelectedCase.'Status (kyc_status)',
+                'Status (KYC Cases)'.Approved, RGBA(16, 124, 16, 1),
+                'Status (KYC Cases)'.Escalated, RGBA(196, 49, 75, 1),
+                'Status (KYC Cases)'.'Info requested', RGBA(176, 108, 0, 1),
                 RGBA(0, 120, 212, 1)
             )
         Font: =Font.'Segoe UI'
         FontWeight: =FontWeight.Semibold
         Height: =30
         Size: =12
-        Text: =Text(SelectedCase.'Case status')
+        Text: =Text(SelectedCase.'Status (kyc_status)')
         Width: =140
         X: =Parent.Width - 164
         Y: =21
@@ -295,7 +295,7 @@ DetailScreen As screen:
         PaddingRight: =12
         Size: =12
         Text: |-
-            ="This case was " & Lower(Text(SelectedCase.'Case status')) & " on " & Text(SelectedCase.'Decided at', "dd mmm yyyy hh:mm") & " and is locked. Final decisions cannot be changed or added to."
+            ="This case was " & Lower(Text(SelectedCase.'Status (kyc_status)')) & " on " & Text(SelectedCase.'Decided at', "dd mmm yyyy hh:mm") & " and is locked. Final decisions cannot be changed or added to."
         Visible: =IsFinal
         Width: =Parent.Width - 936
         X: =912
@@ -351,7 +351,7 @@ DetailScreen As screen:
             =IfError(
                 Set(
                     SelectedCase,
-                    Patch('KYC Cases', SelectedCase, {'Case status': 'Case status (KYC Cases)'.Approved, 'Decided at': Now()})
+                    Patch('KYC Cases', SelectedCase, {'Status (kyc_status)': 'Status (KYC Cases)'.Approved, 'Decided at': Now()})
                 );
                 Patch(
                     'KYC Case Activities',
@@ -389,7 +389,7 @@ DetailScreen As screen:
             =IfError(
                 Set(
                     SelectedCase,
-                    Patch('KYC Cases', SelectedCase, {'Case status': 'Case status (KYC Cases)'.'Info requested'})
+                    Patch('KYC Cases', SelectedCase, {'Status (kyc_status)': 'Status (KYC Cases)'.'Info requested'})
                 );
                 Patch(
                     'KYC Case Activities',
@@ -426,7 +426,7 @@ DetailScreen As screen:
             =IfError(
                 Set(
                     SelectedCase,
-                    Patch('KYC Cases', SelectedCase, {'Case status': 'Case status (KYC Cases)'.Escalated, 'Decided at': Now()})
+                    Patch('KYC Cases', SelectedCase, {'Status (kyc_status)': 'Status (KYC Cases)'.Escalated, 'Decided at': Now()})
                 );
                 Patch(
                     'KYC Case Activities',

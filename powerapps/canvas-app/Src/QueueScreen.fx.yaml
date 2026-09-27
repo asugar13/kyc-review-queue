@@ -172,12 +172,12 @@ QueueScreen As screen:
                 Filter(
                     'KYC Cases',
                     StatusFilter.Selected.Value = "All statuses" ||
-                    'Case status' = Switch(
+                    'Status (kyc_status)' = Switch(
                         StatusFilter.Selected.Value,
-                        "Pending", 'Case status (KYC Cases)'.Pending,
-                        "Info requested", 'Case status (KYC Cases)'.'Info requested',
-                        "Approved", 'Case status (KYC Cases)'.Approved,
-                        'Case status (KYC Cases)'.Escalated
+                        "Pending", 'Status (KYC Cases)'.Pending,
+                        "Info requested", 'Status (KYC Cases)'.'Info requested',
+                        "Approved", 'Status (KYC Cases)'.Approved,
+                        'Status (KYC Cases)'.Escalated
                     ),
                     IsBlank(Trim(SearchInput.Text)) || Trim(SearchInput.Text) in 'Applicant name' || Trim(SearchInput.Text) in 'Case reference'
                 ),
@@ -187,7 +187,7 @@ QueueScreen As screen:
         LoadingSpinner: =LoadingSpinner.Data
         OnSelect: |-
             =Set(SelectedCase, ThisItem);
-            Set(IsFinal, SelectedCase.'Case status' = 'Case status (KYC Cases)'.Approved || SelectedCase.'Case status' = 'Case status (KYC Cases)'.Escalated);
+            Set(IsFinal, SelectedCase.'Status (kyc_status)' = 'Status (KYC Cases)'.Approved || SelectedCase.'Status (kyc_status)' = 'Status (KYC Cases)'.Escalated);
             Navigate(DetailScreen, ScreenTransition.None)
         TemplateFill: =If(ThisItem.IsSelected, RGBA(232, 240, 254, 1), RGBA(255, 255, 255, 1))
         TemplateSize: =64
@@ -268,17 +268,17 @@ QueueScreen As screen:
             Color: =RGBA(255, 255, 255, 1)
             Fill: |-
                 =Switch(
-                    ThisItem.'Case status',
-                    'Case status (KYC Cases)'.Approved, RGBA(16, 124, 16, 1),
-                    'Case status (KYC Cases)'.Escalated, RGBA(196, 49, 75, 1),
-                    'Case status (KYC Cases)'.'Info requested', RGBA(176, 108, 0, 1),
+                    ThisItem.'Status (kyc_status)',
+                    'Status (KYC Cases)'.Approved, RGBA(16, 124, 16, 1),
+                    'Status (KYC Cases)'.Escalated, RGBA(196, 49, 75, 1),
+                    'Status (KYC Cases)'.'Info requested', RGBA(176, 108, 0, 1),
                     RGBA(0, 120, 212, 1)
                 )
             Font: =Font.'Segoe UI'
             FontWeight: =FontWeight.Semibold
             Height: =26
             Size: =11
-            Text: =Text(ThisItem.'Case status')
+            Text: =Text(ThisItem.'Status (kyc_status)')
             Width: =120
             X: =560
             Y: =19
