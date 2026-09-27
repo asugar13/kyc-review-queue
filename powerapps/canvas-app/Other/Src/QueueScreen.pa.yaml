@@ -74,7 +74,7 @@ Screens:
             Font: =Font.'Segoe UI'
             FontWeight: =FontWeight.Semibold
             Text: ="Status"
-            Width: =60
+            Width: =70
             X: =24
             Y: =92
             ZIndex: =6
@@ -84,16 +84,9 @@ Screens:
             AccessibleLabel: ="Filter cases by status"
             Default: ="Pending"
             Font: =Font.'Segoe UI'
-            Items: |-
-                =Table(
-                    {Value: "All statuses", Status: Blank()},
-                    {Value: "Pending", Status: 'Case status (KYC Cases)'.Pending},
-                    {Value: "Info requested", Status: 'Case status (KYC Cases)'.'Info requested'},
-                    {Value: "Approved", Status: 'Case status (KYC Cases)'.Approved},
-                    {Value: "Escalated", Status: 'Case status (KYC Cases)'.Escalated}
-                )
-            Width: =220
-            X: =88
+            Items: =["All statuses", "Pending", "Info requested", "Approved", "Escalated"]
+            Width: =212
+            X: =96
             Y: =92
             ZIndex: =7
       - SearchInput:
@@ -206,7 +199,14 @@ Screens:
                 =SortByColumns(
                     Filter(
                         'KYC Cases',
-                        IsBlank(StatusFilter.Selected.Status) || 'Case status' = StatusFilter.Selected.Status,
+                        StatusFilter.Selected.Value = "All statuses" ||
+                        'Case status' = Switch(
+                            StatusFilter.Selected.Value,
+                            "Pending", 'Case status (KYC Cases)'.Pending,
+                            "Info requested", 'Case status (KYC Cases)'.'Info requested',
+                            "Approved", 'Case status (KYC Cases)'.Approved,
+                            'Case status (KYC Cases)'.Escalated
+                        ),
                         IsBlank(Trim(SearchInput.Text)) || Trim(SearchInput.Text) in 'Applicant name' || Trim(SearchInput.Text) in 'Case reference'
                     ),
                     "kyc_submittedat",
